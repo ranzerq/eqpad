@@ -8,16 +8,51 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14171d;--panel:#1d212a;--ink:#e8eaef;--mut:#98a0b0;--line:#313744;--key:#2a2f3b;--acc:#6b93ff;--op:#34405f;color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#14171d;--panel:#1d212a;--ink:#e8eaef;--mut:#98a0b0;--line:#313744;--key:#2a2f3b;--acc:#6b93ff;--op:#34405f;color-scheme:dark}
 *{box-sizing:border-box}html,body{margin:0}body{background:var(--bg);color:var(--ink);font:15px system-ui,sans-serif;background-color:var(--bg)}
-.app{max-width:900px;margin:0 auto;padding:12px;display:flex;flex-direction:column;gap:10px;container-type:inline-size}
-.layout{display:flex;gap:12px;align-items:flex-start;justify-content:center}.main{flex:0 1 520px;min-width:0;display:flex;flex-direction:column;gap:10px}
-.lcol,.rcol{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:8px}.lcol{align-items:flex-end}.rcol{align-items:flex-start}
+html{scroll-snap-type:y mandatory;overflow-y:auto}
+.screen{position:relative;overflow:hidden;height:100vh;scroll-snap-align:start}.fit{position:absolute;top:0;left:0;transform-origin:0 0}html.free{scroll-snap-type:none}
+.below{scroll-snap-align:end;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;padding:16px 12px calc(16px + env(safe-area-inset-bottom,0px));max-width:1100px;margin:0 auto;min-height:92px}
+.dw{position:relative;flex:none;height:170px}
+#fsb{position:absolute;top:8px;right:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;cursor:pointer;padding:0}#fsb svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.dw.light #fsb{color:#222;border-color:rgba(0,0,0,.25);background:rgba(0,0,0,.06)}
+#exp{display:flex;flex-direction:column;gap:8px}
+.topbar{display:none}
+html.mob .topbar{display:flex;gap:6px;padding:10px;scroll-snap-align:start}
+html.mob .topbar .ib{flex:1;min-width:0;width:auto;max-width:none;padding:11px 6px;font-size:15px;font-weight:600;line-height:1.1}
+html.mob .screen{position:static;overflow:visible;height:100vh;height:100dvh;min-height:520px;display:flex;flex-direction:column;padding:0 10px 6px}
+html.mob .fit{position:static!important;transform:none!important;width:auto!important;flex:1;min-height:0;display:flex;flex-direction:column}
+html.mob .layout{flex:1;min-height:0;flex-direction:column;align-items:stretch;gap:8px}
+html.mob .main{flex:1 1 auto;min-height:0;width:100%;gap:8px}
+html.mob .dw{flex:0 0 clamp(120px,25vh,270px);height:auto}
+html.mob .gp:not(.open){margin-top:-8px}
+html.mob #pad{flex:1;min-height:0;grid-auto-rows:auto;grid-template-rows:repeat(var(--rows,8),minmax(0,1fr))}
+html.mob #menu{flex:none}html.mob #menu .k{height:46px}
+html.mob .k{height:100%;min-height:0;font:600 clamp(16px,2.7vh,30px)/1 'Outfit','Poppins','Segoe UI',system-ui,sans-serif}
+html.mob .k.v{font:400 clamp(18px,3.1vh,34px)/1 'Cambria Math','STIX Two Math','Times New Roman',serif}
+html.mob .k.g{font:700 clamp(14px,2.3vh,22px)/1 'Outfit',system-ui,sans-serif}
+html.mob .k svg{width:clamp(18px,3vh,32px);height:clamp(18px,3vh,32px)}
+body.dfs{overflow:hidden}body.dfs .fit{transform:none!important}body.dfs .dw{position:fixed;inset:0;height:auto;z-index:15}body.dfs #disp{border-radius:0;border:0}
+@media (max-width:820px),(pointer:coarse){#fsb{display:none}}
+.box.kb{max-width:1040px;width:94vw;height:88vh;max-height:88vh}#list{overflow:auto;flex:1;min-height:0;margin-top:6px}
+.kg h4,#kpp h4{margin:14px 0 6px;font-size:12.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--mut)}
+.kgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:8px}
+.ki{display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+.ki .gl{width:34px;height:34px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:8px;background:var(--key);font:400 20px 'Cambria Math','STIX Two Math',serif}.ki .gl svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.ki .nm{flex:1;min-width:0;font-size:15px;font-weight:600;line-height:1.15}.ki .chip{min-width:56px;font-size:17px;padding:6px 10px}.ki .x{padding:4px 8px}.hint{margin:6px 0 0;color:var(--mut);font-size:13px}
+.kpbody{display:flex;gap:16px;flex:1;min-height:0;margin-top:8px}#kpl{flex:0 0 400px;overflow:auto}#kpp{flex:1;overflow:auto;min-width:0}
+.kr{display:flex;gap:4px;align-items:center;margin-bottom:6px}.kc{padding:4px 7px;flex:none}
+.ks{flex:1;min-width:0;height:44px;border:2px solid transparent;border-radius:8px;background:var(--key);font:600 17px 'Outfit',system-ui,sans-serif;cursor:pointer;color:var(--ink);padding:0;overflow:hidden}.ks.v{font:400 21px 'Cambria Math','STIX Two Math',serif}.ks.sel{border-color:var(--acc)}.ks svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
+.kpg{display:grid;grid-template-columns:repeat(auto-fill,minmax(56px,1fr));gap:6px}.kpg .ks{flex:none}
+@media(max-width:820px){.kpbody{flex-direction:column}#kpl{flex:none;max-height:42%}}
+#hmenu{position:fixed;z-index:25;display:flex;flex-direction:column;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px;box-shadow:0 6px 24px rgba(0,0,0,.3)}#hmenu button{text-align:left}
+.layout{display:flex;gap:12px;align-items:flex-start;justify-content:center;width:100%}.main{flex:0 0 520px;min-width:0;display:flex;flex-direction:column;gap:10px}
+.lcol,.rcol{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:8px}.lcol{align-items:flex-end}.rcol{align-items:flex-start}.lcol:not(.inb) .xb{width:100%;max-width:210px}.rcol:not(.inb) #exp,.rcol:not(.inb) #rbtn{width:100%;max-width:170px}
 .gp{overflow:hidden;max-height:0;opacity:0;margin-top:-10px;transform:translateX(-24px);visibility:hidden;padding:0 2px;transition:max-height .28s ease,margin-top .28s ease,opacity .22s,transform .28s ease,visibility 0s .28s}
 .gp.open{max-height:64px;opacity:1;margin-top:0;transform:none;visibility:visible;padding:2px;transition:max-height .28s ease,margin-top .28s ease,opacity .22s,transform .28s ease}
-@container (max-width:760px){.layout{flex-direction:column;align-items:stretch}.main{flex:none}.lcol{order:-1;align-items:stretch}.rcol{flex-direction:row;flex-wrap:wrap;justify-content:flex-end}.xb{padding:10px 14px;font-size:15px}}
+.inb{flex:none!important;width:100%;flex-direction:row!important;flex-wrap:wrap;align-items:center!important;padding-top:0!important}.inb .xb{padding:10px 14px;font-size:15px;width:auto!important}.inb #exp{flex-direction:row;flex-wrap:wrap}
 header{display:flex;justify-content:space-between;align-items:center}h1{font-size:17px;margin:0}
 button,select,input{font:inherit;color:var(--ink)}
 .ib{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer}
-#disp{height:170px;border-radius:12px;border:1px solid var(--line);overflow:auto;display:flex;background:#1f2430;transition:background .15s}
+#disp{height:100%;border-radius:12px;border:1px solid var(--line);overflow:hidden;display:flex;background:#1f2430;transition:background .15s}
 #disp.light{background:#f2f2f2}
 #svg{margin:auto;display:block;flex:none}
 .caret{animation:bl 1s steps(1) infinite}@keyframes bl{50%{opacity:0}}
@@ -26,7 +61,7 @@ button,select,input{font:inherit;color:var(--ink)}
 .pri{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:7px 12px;cursor:pointer}
 .tex{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px;display:flex;flex-direction:column;gap:6px}
 textarea{width:100%;resize:vertical;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:6px;font:13px ui-monospace,monospace}
-.pad{display:grid;grid-template-columns:repeat(30,1fr);gap:6px}[hidden]{display:none!important}.k.g{background:#2f9e5b;color:#fff;font:700 19px/1 'Outfit',system-ui,sans-serif}.nt{display:flex;flex-direction:column;gap:6px;padding:10px 0;border-top:1px solid var(--line)}.nt .th{overflow:auto;min-height:30px}.nt .ac{display:flex;gap:6px;flex-wrap:wrap}.nt button{padding:5px 12px}.xb{padding:12px 20px;font-size:17px;font-weight:600}#rside textarea{font-size:16px}@media(min-width:1200px){body.ro{padding-right:520px}body.lo{padding-left:330px}}#disp{touch-action:none;cursor:text}#svg{user-select:none}
+.pad{display:grid;grid-template-columns:repeat(60,1fr);gap:6px}#pad,#menu{grid-auto-rows:52px}[hidden]{display:none!important}.k.g{background:#2f9e5b;color:#fff;font:700 19px/1 'Outfit',system-ui,sans-serif}.nt{display:flex;flex-direction:column;gap:6px;padding:10px 0;border-top:1px solid var(--line)}.nt .th{overflow:auto;min-height:30px}.nt .ac{display:flex;gap:6px;flex-wrap:wrap}.nt button{padding:5px 12px}.xb{padding:12px 20px;font-size:17px;font-weight:600}#rside textarea{font-size:16px}@media(min-width:1200px){body.ro{padding-right:520px}body.lo{padding-left:330px}}#disp{touch-action:none;cursor:text}#svg{user-select:none}
 .sw{display:inline-flex;align-items:center;gap:6px;cursor:pointer;user-select:none}.sw input{display:none}.sw i{width:34px;height:20px;border-radius:10px;background:var(--key);border:1px solid var(--line);position:relative;transition:.15s;flex:none}.sw i:after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--mut);transition:.15s}.sw input:checked+i{background:var(--acc)}.sw input:checked+i:after{left:16px;background:#fff}
 #side{position:fixed;top:0;left:0;bottom:0;width:min(330px,88vw);background:var(--panel);border-right:1px solid var(--line);transform:translateX(-102%);transition:transform .2s;z-index:8;padding:calc(12px + env(safe-area-inset-top,0px)) 12px 12px;overflow:auto}#rside{position:fixed;top:0;right:0;bottom:0;width:min(520px,92vw);background:var(--panel);border-left:1px solid var(--line);transform:translateX(102%);transition:transform .2s;z-index:8;padding:calc(12px + env(safe-area-inset-top,0px)) 12px 12px;overflow:auto}#rside.open{transform:none;box-shadow:-4px 0 24px rgba(0,0,0,.3)}.help{margin:-4px 0 0;font-size:12px;color:var(--mut);line-height:1.4}header{gap:8px}header h1{flex:1;text-align:center}
 #mbody{overflow:auto;flex:1;min-height:0;margin-top:8px;line-height:1.55;font-size:14px}#mbody h3{margin:18px 0 4px}#mbody p{margin:4px 0}#mbody code{background:var(--key);padding:1px 5px;border-radius:4px;font-size:12.5px}#mbody table{border-collapse:collapse;width:100%;margin:8px 0}#mbody td,#mbody th{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
@@ -43,24 +78,23 @@ textarea{width:100%;resize:vertical;background:var(--bg);color:var(--ink);border
 .chip{min-width:70px;background:var(--key);border:1px solid var(--line);border-radius:6px;padding:4px 8px;cursor:pointer;font-family:ui-monospace,monospace}.chip.cap{background:var(--acc);color:#fff}
 #toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#222;color:#fff;padding:8px 14px;border-radius:8px;opacity:0;transition:opacity .2s;pointer-events:none}#toast.on{opacity:.95}
 </style></head><body>
-<div class="app">
-<header><button class="ib" id="sidebtn">☰ Saved equations</button><button class="ib" id="tcb"></button><button class="ib" id="rbtn">LaTeX ☰</button></header>
-<div class="layout">
-<div class="lcol"><button class="ib xb" id="gtog">▸ Plain text to LaTeX</button></div>
+<div class="topbar" id="topbar"></div>
+<div class="screen" id="screen"><div class="fit" id="fit"><div class="layout">
+<div class="lcol" id="lcol"><button class="ib xb" id="sidebtn">☰ Saved equations</button><button class="ib xb" id="gtog">▸ Plain text to LaTeX</button><button class="ib xb" id="tcb"></button></div>
 <div class="main">
-<div id="disp"><svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg></div>
+<div class="dw"><div id="disp"><svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg></div><button id="fsb" title="Fullscreen" aria-label="Fullscreen"></button></div>
 <div class="gp" id="gp"><div class="bar" style="flex-wrap:nowrap"><input class="ib" id="pt" placeholder="plain text to latex" style="flex:1;min-width:0"><button class="pri" id="conv">→ Equation</button></div></div>
 <div class="pad" id="menu" hidden></div><div class="pad" id="pad"></div>
-<div class="bar" style="justify-content:space-between"><label class="sw" title="Light / dark mode"><span id="lmi" style="display:inline-flex"></span><input type="checkbox" id="lm"><i></i></label><button class="ib" id="helpb">? Tour &amp; guide</button><button class="ib" id="gear">⚙ Keybinds</button></div>
 </div>
-<div class="rcol"><button class="pri xb" id="png">PNG</button><button class="pri xb" id="png8">PNG 8×</button><button class="pri xb" id="svgb">SVG</button><button class="ib xb" id="cimg">Copy image</button></div>
-</div>
-</div>
+<div class="rcol" id="rcol"><div id="exp"><button class="pri xb" id="png">PNG</button><button class="pri xb" id="png8">PNG 8×</button><button class="pri xb" id="svgb">SVG</button><button class="ib xb" id="cimg">Copy image</button></div><button class="ib xb" id="rbtn">LaTeX ☰</button></div>
+</div></div></div>
+<div class="below" id="below"><label class="sw" title="Light / dark mode"><span id="lmi" style="display:inline-flex"></span><input type="checkbox" id="lm"><i></i></label><button class="ib" id="helpb">? Tour &amp; guide</button><button class="ib" id="kpb">⌨ Customize keypad</button><button class="ib" id="gear">⚙ Keybinds</button></div>
 <div class="modal" id="manual" hidden><div class="box" style="max-width:760px"><div class="bar" style="justify-content:space-between"><h2 style="margin:0">Guide</h2><span class="bar"><button class="ib" id="mtour">Restart tour</button><button class="ib" id="mclose">✕</button></span></div><div id="mbody">
 <h3>1. The display and caret</h3>
 <p>Type on your keyboard or click the keypad. Click anywhere in the equation to move the caret. Drag, or hold Shift and press the arrow keys, to select; Ctrl/Cmd+A selects everything. Typing, DEL or Backspace replaces or deletes a selection. ← → move through the equation and in and out of fractions, roots and powers. ↑ ↓ jump between the top and bottom of a fraction. Backspace on an empty fraction, root or power removes it; on a filled one it first steps into it.</p>
 <h3>2. Fractions (a⁄b or /)</h3>
 <p>With a selection, the selection becomes the numerator, so you can write 53 + 91, select it and press a⁄b. Without a selection the key takes what is directly left of the caret: a run of digits (decimal point included), a single variable, Greek letter, function or root, or a whole bracketed group (its outer brackets are dropped), plus any powers or subscripts attached to it. The caret then jumps to the denominator. Press / again inside a numerator or denominator for nested fractions.</p>
+<p><b>Mixed fractions.</b> The mixed-fraction key (𝑎𝑏⁄𝑐, next to ≠) writes a whole number followed by a fraction, like 2¾. Type the whole number first (or select something), press the key, then fill in the numerator and denominator; ↑ ↓ jump between them. It exports as <code>2\frac{3}{4}</code>.</p>
 <h3>3. Roots, powers and subscripts</h3>
 <p>√ wraps the selection in a square root, or opens an empty one. ⁿ√ puts the caret in the small index first; press → to move into the root. 𝑥ⁿ and 𝑥ₙ open a raised or lowered box, and 𝑥² inserts a square. Press → to leave the box. A power and a subscript on the same symbol are stacked.</p>
 <h3>4. Trigonometry</h3>
@@ -73,7 +107,7 @@ textarea{width:100%;resize:vertical;background:var(--bg);color:var(--ink);border
 <p>Click “Plain text to LaTeX” on the left to open the box above the keypad. Type an expression and press Enter or → Equation. The result is <b>inserted at the caret</b> (replacing a selection) and nothing else is cleared, so you can keep editing with the keypad. The converter is a fixed set of rules, no guessing:</p>
 <table>
 <tr><th>You type</th><th>You get</th></tr>
-<tr><td><code>(2x+1)/2x^2-5x+34</code></td><td>(2x+1) over (2x²−5x+34)</td></tr>
+<tr><td><code>(2x^2+14x+24)/x^2-5x-36</code></td><td>(2x²+14x+24) over (x²−5x−36)</td></tr>
 <tr><td><code>1/2x</code></td><td>1 over 2x</td></tr>
 <tr><td><code>a/b+c</code></td><td>a over b, then + c</td></tr>
 <tr><td><code>a/b/c</code></td><td>(a over b) over c, left to right</td></tr>
@@ -87,27 +121,34 @@ textarea{width:100%;resize:vertical;background:var(--bg);color:var(--ink);border
 <tr><td><code>&lt;=</code> &nbsp;<code>&gt;=</code> &nbsp;<code>!=</code> &nbsp;<code>+-</code></td><td>≤ ≥ ≠ ±</td></tr>
 </table>
 <p><b>Order of operations.</b> Powers bind tightest, then implicit multiplication (2x, xy, 2(x+1), 3sin x), then * and /, then + and −. <code>*</code> and <code>·</code> become ×. Letter runs that are not a known name are split into separate variables, so <code>xy</code> is x·y and <code>sinx</code> is sin x.</p>
-<p><b>Denominators.</b> The bottom of a fraction is the implicit-multiplication group right after the /, so <code>1/2x</code> is 1 over 2x. One special rule: when the top is a bracketed group containing + or −, and the bottom is not bracketed, everything after the / up to the next = , &lt; , &gt; or closing bracket becomes the bottom. That is why <code>(2x+1)/2x^2-5x+34</code> gives the whole 2x²−5x+34 underneath. If you want something different, bracket the bottom yourself: <code>(2x+1)/(2x^2)-5x+34</code>.</p>
+<p><b>Denominators.</b> The bottom of a fraction is the implicit-multiplication group right after the /, so <code>1/2x</code> is 1 over 2x. One special rule: when the top is a bracketed group containing + or −, and the bottom is not bracketed, everything after the / up to the next = , &lt; , &gt; or closing bracket becomes the bottom. That is why <code>(2x^2+14x+24)/x^2-5x-36</code> gives the whole x²−5x−36 underneath. If you want something different, bracket the bottom yourself: <code>(2x^2+14x+24)/(x^2)-5x-36</code>.</p>
 <p><b>Exponents and indices.</b> <code>^</code> takes only the next thing: a number, a letter, a function, or a bracketed group. <code>x^2y</code> is x² times y; use <code>x^(2y)</code> for both. A leading − or + is allowed (<code>e^-x</code>).</p>
 <p><b>Brackets.</b> Brackets directly around a numerator, denominator, exponent or root are removed because the structure already shows them. [ ] and { } are treated like ( ). A missing closing bracket is added. Anything the converter does not recognise (for example % or !) is kept as typed.</p>
 <h3>8. The LaTeX panel</h3>
-<p>Open it with the LaTeX button at the top right. It updates live. Choose Plain, $…$ (inline) or $$…$$ (display) and press Generate &amp; copy. Brackets become <code>\left( … \right)</code> so they size themselves in LaTeX like they do here. Fractions are <code>\frac{…}{…}</code>, roots <code>\sqrt[n]{…}</code>, powers <code>^{…}</code>, subscripts <code>_{…}</code>.</p>
+<p>Open it with the LaTeX button under Copy image. It updates live. Choose Plain, $…$ (inline) or $$…$$ (display) and press Generate &amp; copy. Brackets become <code>\left( … \right)</code> so they size themselves in LaTeX like they do here. Fractions are <code>\frac{…}{…}</code>, roots <code>\sqrt[n]{…}</code>, powers <code>^{…}</code>, subscripts <code>_{…}</code>.</p>
 <h3>9. Exporting images</h3>
-<p>PNG saves a high-resolution transparent image (4× the on-screen size). PNG 8× doubles that again, capped at about 15,000 pixels on the long side. SVG saves a vector file; it uses text, so it relies on the viewer having a maths font and some programs (and Discord, which does not preview SVG) will not show it properly. Copy image puts the PNG on your clipboard to paste into Word or Docs; your browser may block this, in which case use Save PNG. The button at the top switches the exported text between white and black. Use black text for light backgrounds.</p>
+<p>PNG saves a high-resolution transparent image (4× the on-screen size). PNG 8× doubles that again, capped at about 15,000 pixels on the long side. SVG saves a vector file; it uses text, so it relies on the viewer having a maths font and some programs (and Discord, which does not preview SVG) will not show it properly. Copy image puts the PNG on your clipboard to paste into Word or Docs; your browser may block this, in which case use Save PNG. The Black text / White text button on the left, under Plain text to LaTeX, switches the exported text colour. Use black text for light backgrounds. Each export asks you to confirm the save.</p>
 <h3>10. Saved equations</h3>
 <p>Open the Saved equations drawer on the left. Give the equation an optional name and press Save current. Load puts a saved equation in the display (replacing the current one), Update overwrites it with what is on screen, TeX copies its LaTeX and ✕ deletes it. Saved equations live in this browser only; clearing site data erases them.</p>
 <h3>11. Keybinds</h3>
-<p>Keybinds lists every action. Click the key box, then press the key you want; clicking the box again cancels. ✕ unbinds, and Reset defaults restores the original keys. If you bind a key that is already used, the old action loses it. Any unbound letter key simply types that variable. Settings are saved in this browser.</p>
-<h3>12. Light and dark mode</h3>
-<p>The switch with the sun or moon icon below the keypad changes the whole page. It follows your system until you change it.</p>
+<p>Keybinds lists every action in groups, in several columns, with a search box. Click the key box, then press the key you want; clicking the box again cancels. ✕ unbinds, and Reset defaults restores the original keys. If you bind a key that is already used, the old action loses it. Any unbound letter key simply types that variable. Settings are saved in this browser.</p>
+<h3>12. Customize keypad</h3>
+<p>Press “Customize keypad” (below the keypad, one scroll down). The left side shows your keypad as rows of slots; the right side is a library of every key: numbers, operators, brackets including [ ] and { }, structures, trigonometry and functions, Greek letters (lower and upper case), calculus keys, and symbols for sets, logic and arrows. Click a slot, then click a library key to put it there. The row buttons move a row up or down, add a key to it (up to 6 per row) or delete it. “Remove selected key” and “+ Add row” change the shape. Everything saves in this browser; “Reset to default” restores the original keypad. Every library key can also get a keyboard shortcut in Keybinds.</p>
+<p><b>Sum, product, integral, limit and unions</b> are structures with a lower and an upper box (limit has only a lower one). The ∑ ∏ ⋃ ⋂ and lim keys place the boxes below and above; the definite integral ∫ₐᵇ places them at the side like in print. Press → to move from the lower to the upper box, or use ↑ ↓. The plain ∫ ∬ ∭ ∮ keys insert just the sign, and the d key inserts an upright differential for things like ∫ f(x) dx. Curly, square and round brackets grow to fit tall content.</p>
+<h3>13. Light and dark mode</h3>
+<p>The switch with the sun or moon icon changes the whole page and follows your system until you change it. Scroll down one step to find it, together with Keybinds and this guide. On desktop, the corner button on the display shows only the display, fullscreen, with the equation scaled up to fill it; press Esc or the same button to leave.</p>
 </div></div></div>
 <aside id="rside"><div class="bar" style="justify-content:space-between;margin-bottom:8px"><b>LaTeX</b><button class="ib" id="rclose">✕</button></div><div class="tex"><textarea id="tex" rows="16" readonly placeholder="LaTeX appears here"></textarea>
  <div class="bar"><select class="ib" id="wrap"><option value="">Plain</option><option value="$">$ inline $</option><option value="$$">$$ display $$</option></select><button class="pri" id="gen">Generate &amp; copy LaTeX</button></div></div>
 </aside>
 <aside id="side"><div class="bar" style="justify-content:space-between"><b>Saved equations</b><button class="ib" id="sideclose">✕</button></div><div class="bar" style="margin:8px 0"><input class="ib" id="nm" placeholder="Name (optional)" style="flex:1;min-width:0"><button class="pri" id="save">Save current</button></div><div id="notes"></div></aside>
-<div class="modal" id="modal" hidden><div class="box"><div class="bar" style="justify-content:space-between"><h2 style="margin:0">Keybinds</h2><button class="ib" id="mx">✕</button></div>
-<p style="margin:0 0 8px;color:var(--mut)">Click a key box, then press the keyboard key you want. Unbound letters are typed as variables. Saved in this browser.</p>
-<div id="list"></div><div class="bar" style="margin-top:10px"><button class="ib" id="reset">Reset defaults</button><button class="pri" id="close">Done</button></div></div></div>
+<div class="modal" id="modal" hidden><div class="box kb"><div class="bar" style="justify-content:space-between;gap:10px;flex-wrap:nowrap"><h2 style="margin:0">Keybinds</h2><input class="ib" id="kq" placeholder="Search actions…" style="flex:1;min-width:0;max-width:340px"><button class="ib" id="mx">✕</button></div>
+<p class="hint">Click a key box, then press the keyboard key you want (click it again to cancel). ✕ unbinds. Unbound letters simply type that letter. Saved in this browser.</p>
+<div id="list"></div><div class="bar" style="margin-top:10px;justify-content:space-between"><button class="ib" id="reset">Reset defaults</button><button class="pri" id="close">Done</button></div></div></div>
+<div class="modal" id="kpe" hidden><div class="box kb"><div class="bar" style="justify-content:space-between"><h2 style="margin:0">Customize keypad</h2><button class="ib" id="kpx">✕</button></div>
+<p class="hint">Click a slot on the left, then click a key in the library on the right to put it there. Use the row buttons to move, extend (up to 6 keys) or delete rows. Changes apply instantly and are saved in this browser.</p>
+<div class="kpbody"><div id="kpl"></div><div id="kpp"></div></div>
+<div class="bar" style="margin-top:10px;justify-content:space-between"><button class="ib" id="kpreset">Reset to default</button><button class="pri" id="kpdone">Done</button></div></div></div>
 <div id="toast"></div>
 <script>
 const FF="'Cambria Math','STIX Two Math','Times New Roman',Times,serif",SZ=44;
@@ -118,7 +159,8 @@ const tw=(t,s,it)=>{cv.font=`${it?'italic ':''}${s}px ${FF}`;return cv.measureTe
 function mk(t,slots){const n={t,slots};slots.forEach(s=>s.owner=n);return n}
 const setPar=a=>a.forEach(n=>n.par=a);
 function ins(n){delSel();cur.arr.splice(cur.i,0,n);n.par=cur.arr;cur.i++}
-function match(arr){const st=[],p={};arr.forEach((n,i)=>{if(n.v==='(')st.push(i);else if(n.v===')'&&st.length){const j=st.pop();p[i]=j;p[j]=i}});return p}
+const PRM={')':'(',']':'[','}':'{'},LT={'(':'\\left(','[':'\\left[','{':'\\left\\{'},RT={')':'\\right)',']':'\\right]','}':'\\right\\}'};
+function match(arr){const st={'(':[],'[':[],'{':[]},p={};arr.forEach((n,i)=>{if(n.t!=='c')return;const v=n.v;if(v==='('||v==='['||v==='{')st[v].push(i);else if((v===')'||v===']'||v==='}')&&st[PRM[v]].length){const j=st[PRM[v]].pop();p[i]=j;p[j]=i}});return p}
 /* ---------- editing ---------- */
 const last=a=>a[a.length-1];
 let anc=null,hist=[{d:'[]',c:{p:[],i:0}}],hi=0;
@@ -127,8 +169,8 @@ function selRange(){if(!anc)return null;const ca=chain(anc.arr,anc.i),cb=chain(c
  for(const ea of ca){const eb=cb.find(e=>e.arr===ea.arr);if(eb){const a=Math.min(ea.i,eb.i),b=Math.max(ea.i+ea.l,eb.i+eb.l);return a===b?null:{arr:ea.arr,a,b}}}return null}
 function delSel(){const r=selRange();anc=null;if(!r)return false;r.arr.splice(r.a,r.b-r.a);cur={arr:r.arr,i:r.a};return true}
 function takeSel(){const r=selRange();if(!r)return null;anc=null;return{arr:r.arr,j:r.a,items:r.arr.splice(r.a,r.b-r.a)}}
-const ser=a=>a.map(n=>n.slots?{t:n.t,s:n.slots.map(ser)}:{t:'c',v:n.v,l:n.l});
-function des(j){const a=[];j.forEach(n=>{const x=n.s?mk(n.t,n.s.map(des)):{t:'c',v:n.v,l:n.l};x.par=a;a.push(x)});return a}
+const ser=a=>a.map(n=>n.slots?{t:n.t,s:n.slots.map(ser),o:n.op,l:n.l}:{t:'c',v:n.v,l:n.l,up:n.up});
+function des(j){const a=[];j.forEach(n=>{const x=n.s?mk(n.t,n.s.map(des)):{t:'c',v:n.v,l:n.l,up:n.up};if(n.s&&n.o){x.op=n.o;x.l=n.l}x.par=a;a.push(x)});return a}
 function cpath(){const p=[];let a=cur.arr;while(a.owner){const o=a.owner;p.unshift([o.par.indexOf(o),o.slots.indexOf(a)]);a=o.par}return{p,i:cur.i}}
 function restore(h){root=des(JSON.parse(h.d));anc=null;try{let a=root;h.c.p.forEach(([i,k])=>{a=a[i].slots[k]});cur={arr:a,i:Math.min(h.c.i,a.length)}}catch(e){cur={arr:root,i:root.length}}}
 function snap(){const d=JSON.stringify(ser(root));if(d!==hist[hi].d){hist.length=hi+1;hist.push({d,c:cpath()});hi++;if(hist.length>300){hist.shift();hi--}}else hist[hi].c=cpath()}
@@ -137,7 +179,7 @@ function redo(){if(hi<hist.length-1){hi++;restore(hist[hi])}}
 function fn_(v,l){ins({t:'c',v,l});ins({t:'c',v:'(',l:'('});ins({t:'c',v:')',l:')'});cur.i--}
 function left(){const{arr,i}=cur;if(i>0){const p=arr[i-1];if(p.slots){const s=last(p.slots);cur={arr:s,i:s.length}}else cur.i--}else if(arr.owner){const o=arr.owner,k=o.slots.indexOf(arr);if(k>0){const s=o.slots[k-1];cur={arr:s,i:s.length}}else cur={arr:o.par,i:o.par.indexOf(o)}}}
 function right(){const{arr,i}=cur;if(i<arr.length){const nx=arr[i];if(nx.slots)cur={arr:nx.slots[0],i:0};else cur.i++}else if(arr.owner){const o=arr.owner,k=o.slots.indexOf(arr);if(k<o.slots.length-1)cur={arr:o.slots[k+1],i:0};else cur={arr:o.par,i:o.par.indexOf(o)+1}}}
-function vert(d){let a=cur.arr,i=cur.i;while(a.owner){const o=a.owner;if(o.t==='f'){const k=o.slots.indexOf(a),t=d<0?0:1;if(k!==t){const s=o.slots[t];cur={arr:s,i:Math.min(i,s.length)};return}}i=o.par.indexOf(o);a=o.par}}
+function vert(d){let a=cur.arr,i=cur.i;while(a.owner){const o=a.owner;if(o.t==='f'||o.t==='m'||(o.t==='b'&&o.slots.length>1)){const k=o.slots.indexOf(a),t=o.t==='f'?(d<0?0:1):o.t==='m'?(d<0?1:2):(d<0?1:0);if(k!==t&&!(o.t==='m'&&k===0)){const s=o.slots[t];cur={arr:s,i:Math.min(i,s.length)};return}}i=o.par.indexOf(o);a=o.par}}
 function bs(){if(delSel())return;const{arr,i}=cur;if(i>0){const p=arr[i-1];if(p.slots){if(p.slots.every(s=>!s.length)){arr.splice(i-1,1);cur.i--}else left()}else{arr.splice(i-1,1);cur.i--}}
  else if(arr.owner){const o=arr.owner;if(o.slots.every(s=>!s.length)){const pa=o.par,j=pa.indexOf(o);pa.splice(j,1);cur={arr:pa,i:j}}else left()}}
 const isNum=n=>n.t==='c'&&/^[0-9.]$/.test(n.v);
@@ -154,18 +196,33 @@ function script(k){const n=mk(k,[[]]);ins(n);cur={arr:n.slots[0],i:0}}
 /* ---------- LaTeX ---------- */
 function tex(arr){let o='';const pr=match(arr);
  arr.forEach((n,i)=>{const p=arr[i-1];
-  if(n.t==='c'){if(pr[i]!=null&&n.v==='(')o+='\\left(';else if(pr[i]!=null&&n.v===')')o+='\\right)';else o+=n.l+(n.l[0]==='\\'?' ':'')}
+  if(n.t==='c'){if(pr[i]!=null&&LT[n.v])o+=LT[n.v];else if(pr[i]!=null&&RT[n.v])o+=RT[n.v];else o+=n.l+(n.l[0]==='\\'?' ':'')}
   else if(n.t==='f')o+=`\\frac{${tex(n.slots[0])}}{${tex(n.slots[1])}}`;
+  else if(n.t==='m')o+=tex(n.slots[0])+'\\frac{'+tex(n.slots[1])+'}{'+tex(n.slots[2])+'}';
+  else if(n.t==='b')o+=n.l+'_{'+tex(n.slots[0])+'}'+(n.slots[1]?'^{'+tex(n.slots[1])+'}':'')+' ';
   else if(n.t==='r')o+=n.slots.length>1?`\\sqrt[${tex(n.slots[0])}]{${tex(n.slots[1])}}`:`\\sqrt{${tex(n.slots[0])}}`;
   else{const c=n.t==='s'?'^':'_';if(!p||p.t===n.t)o+='{}';o+=`${c}{${tex(n.slots[0])}}`}});
  return o}
 /* ---------- layout ---------- */
 const MI=c=>/[a-z]/.test(c)?(c==='h'?'ℎ':String.fromCodePoint(0x1D44E+c.charCodeAt(0)-97)):/[A-Z]/.test(c)?String.fromCodePoint(0x1D434+c.charCodeAt(0)-65):(c>='α'&&c<='ω')?String.fromCodePoint(0x1D6FC+c.charCodeAt(0)-0x3B1):c;
-function cbox(n,s){const it=n.v.length===1&&/[A-Za-z\u03b1-\u03c9]/.test(n.v),fn=n.v.length>1,bin='+−×÷±'.includes(n.v),rel='=≤≥≠<>'.includes(n.v);
- const m=bin?.2*s:rel?.28*s:0,rm=n.v===','?.18*s:fn?.08*s:m;
- return{ic:it?.1*s:0,w:tw(it?MI(n.v):n.v,s,false)+m+rm,a:.72*s,d:.22*s,draw:(x,y)=>`<text x="${f(x+m)}" y="${f(y)}" font-size="${f(s)}"">${esc(it?MI(n.v):n.v)}</text>`}}
-function pbox(side,a,d,s){a+=.06*s;d+=.06*s;const w=.34*s;
- return{w,a,d,draw:(x,y)=>{const x1=x+(side?.08:.26)*s,x2=x+(side?.36:-.02)*s;return`<path d="M${f(x1)} ${f(y-a)}C${f(x2)} ${f(y-a*.4)} ${f(x2)} ${f(y+d*.4)} ${f(x1)} ${f(y+d)}" fill="none" stroke="currentColor" stroke-width="${f(.055*s)}" stroke-linecap="round"/>`}}}
+function cbox(n,s){const one=n.v.length===1,it=!n.up&&one&&/[A-Za-z\u03b1-\u03c9]/.test(n.v),fn=n.v.length>1,big=one&&'∫∬∭∮'.includes(n.v),bin=one&&'+−×÷±∓'.includes(n.v),rel=one&&'=≤≥≠<>≈≡∼∝≪≫∈∉⊂⊆⊃⊇'.includes(n.v);
+ const m=bin?.2*s:rel?.28*s:n.up?.14*s:0,rm=n.v===','?.18*s:fn?.08*s:n.up?0:m,gs=big?1.4*s:s,dy=big?.14*s:0,txt=it?MI(n.v):n.v;
+ return{ic:it?.1*s:0,w:tw(txt,gs,false)+m+rm,a:big?1.0*s:.72*s,d:big?.42*s:.22*s,draw:(x,y)=>`<text x="${f(x+m)}" y="${f(y+dy)}" font-size="${f(gs)}">${esc(txt)}</text>`}}
+function pbox(side,a,d,s,k='('){a+=.06*s;d+=.06*s;const w=.34*s,sw=f(.055*s);
+ return{w,a,d,draw:(x,y)=>{const t=y-a,b=y+d,m=(t+b)/2,q=.11*s,X=u=>x+(side?.34*s-u*s:u*s);let p;
+  if(k==='(')p=`M${f(X(.26))} ${f(t)}C${f(X(-.02))} ${f(y-a*.4)} ${f(X(-.02))} ${f(y+d*.4)} ${f(X(.26))} ${f(b)}`;
+  else if(k==='[')p=`M${f(X(.26))} ${f(t)}H${f(X(.08))}V${f(b)}H${f(X(.26))}`;
+  else p=`M${f(X(.3))} ${f(t)}C${f(X(.17))} ${f(t)} ${f(X(.2))} ${f(t+q)} ${f(X(.2))} ${f(t+2*q)}V${f(m-q)}C${f(X(.2))} ${f(m-.5*q)} ${f(X(.12))} ${f(m)} ${f(X(.03))} ${f(m)}C${f(X(.12))} ${f(m)} ${f(X(.2))} ${f(m+.5*q)} ${f(X(.2))} ${f(m+q)}V${f(b-2*q)}C${f(X(.2))} ${f(b-q)} ${f(X(.17))} ${f(b)} ${f(X(.3))} ${f(b)}`;
+  return`<path d="${p}" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"/>`}}}
+function mbox(n,s){const W=row(n.slots[0],s),F=fbox({slots:[n.slots[1],n.slots[2]]},s),g=.08*s;return{w:W.w+g+F.w,a:Math.max(W.a,F.a),d:Math.max(W.d,F.d),draw:(x,y)=>W.draw(x,y)+F.draw(x+W.w+g,y)}}
+const STK={'∑':1,'∏':1,'⋃':1,'⋂':1,lim:1};
+function bbox(n,s){const op=n.op,stk=!!STK[op],isl=op==='lim',gs=isl?s:1.45*s,gw=tw(op,gs,false)+(isl?.06*s:.04*s),ax=.3*s,
+ ga=isl?.72*s:.74*gs*.82,gd=isl?.22*s:.26*gs*.82,yg=isl?0:-ax+(ga-gd)/2,lo=row(n.slots[0],.7*s),hi=n.slots[1]?row(n.slots[1],.7*s):null,g=.08*s;
+ const glyph=(x,y)=>`<text x="${f(x)}" y="${f(y+yg)}" font-size="${f(gs)}">${esc(op)}</text>`;
+ if(stk){const w=Math.max(gw,lo.w,hi?hi.w:0)+.1*s,hiB=hi?yg-ga-g-hi.d:0,loB=yg+gd+g+lo.a;
+  return{w,a:Math.max(.72*s,ga-yg,hi?hi.a-hiB:0),d:Math.max(.22*s,gd+yg,loB+lo.d),draw:(x,y)=>glyph(x+(w-gw)/2,y)+(hi?hi.draw(x+(w-hi.w)/2,y+hiB):'')+lo.draw(x+(w-lo.w)/2,y+loB)}}
+ const w=gw+Math.max(lo.w,hi?hi.w:0)+.06*s,hiB=hi?yg-ga+hi.a*.85:0,loB=yg+gd-lo.d*.85;
+ return{w,a:Math.max(.72*s,ga-yg,hi?hi.a-hiB:0),d:Math.max(.22*s,gd+yg,loB+lo.d),draw:(x,y)=>glyph(x,y)+(hi?hi.draw(x+gw+.1*s,y+hiB):'')+lo.draw(x+gw-.02*s,y+loB)}}
 function fbox(n,s){const t=.92*s,N=row(n.slots[0],t),D=row(n.slots[1],t),ax=.3*s,g=.1*s,w=Math.max(N.w,D.w)+.16*s;
  return{w,a:ax+g+N.d+N.a,d:Math.max(0,D.a+D.d+g-ax),draw:(x,y)=>N.draw(x+(w-N.w)/2,y-ax-g-N.d)+D.draw(x+(w-D.w)/2,y-ax+g+D.a)+`<line x1="${f(x+.04*s)}" x2="${f(x+w-.04*s)}" y1="${f(y-ax)}" y2="${f(y-ax)}" stroke="currentColor" stroke-width="${f(.055*s)}"/>`}}
 function rbox(n,s){const B=row(last(n.slots),s),I=n.slots.length>1?row(n.slots[0],.6*s):null;
@@ -173,7 +230,7 @@ function rbox(n,s){const B=row(last(n.slots),s),I=n.slots.length>1?row(n.slots[0
  const w=sx+.5*s+B.w+.12*s,a=Math.max(-top+.06*s,I?I.a-iy:0);
  return{w,a,d:bot,draw:(x,y)=>{const X=x+sx,p=`M${f(X)} ${f(y+mid)}L${f(X+.1*s)} ${f(y+mid-.04*s)}L${f(X+.28*s)} ${f(y+bot)}L${f(X+.46*s)} ${f(y+top)}L${f(X+.5*s+B.w+.08*s)} ${f(y+top)}`;
   return`<path d="${p}" fill="none" stroke="currentColor" stroke-width="${f(.055*s)}" stroke-linejoin="round" stroke-linecap="round"/>`+B.draw(X+.5*s,y)+(I?I.draw(x,y+iy):'')}}}
-function box(n,s){if(n.t==='c')return cbox(n,s);if(n.t==='s'||n.t==='u')return{script:1,kind:n.t,inner:row(n.slots[0],.7*s)};return n.t==='f'?fbox(n,s):rbox(n,s)}
+function box(n,s){if(n.t==='c')return cbox(n,s);if(n.t==='s'||n.t==='u')return{script:1,kind:n.t,inner:row(n.slots[0],.7*s)};return n.t==='f'?fbox(n,s):n.t==='b'?bbox(n,s):n.t==='m'?mbox(n,s):rbox(n,s)}
 function place(its,s){let x=0,bIC=0,bA=.72*s,bD=.22*s,lst=null,xs=[],ext=[],pl=[],A=.72*s,D=.22*s;
  its.forEach((b,k)=>{xs[k]=x;
   if(b.script){let px=x;const w=b.inner.w+.04*s,stk=lst&&lst.kind!==b.kind&&!lst.st;if(stk)px=lst.x;const ic=b.kind==='s'?bIC:0;px+=ic;
@@ -184,7 +241,7 @@ function place(its,s){let x=0,bIC=0,bA=.72*s,bD=.22*s,lst=null,xs=[],ext=[],pl=[
  xs[its.length]=x;return{xs,pl,ext,A,D,w:x}}
 function row(arr,s){const pr=match(arr),its=arr.map(n=>box(n,s));
  for(let c=0;c<arr.length;c++){const o=pr[c];if(o!=null&&o<c){const r=place(its,s);let a=.72*s,d=.22*s;for(let k=o+1;k<c;k++){a=Math.max(a,r.ext[k][0]);d=Math.max(d,r.ext[k][1])}
-  if(a>.85*s||d>.3*s){its[o]=pbox(0,a,d,s);its[c]=pbox(1,a,d,s)}}}
+  if(a>.85*s||d>.3*s){its[o]=pbox(0,a,d,s,arr[o].v);its[c]=pbox(1,a,d,s,arr[o].v)}}}
  if(!arr.length){const w=.6*s;return{w,a:.72*s,d:.22*s,draw:(x,y)=>(EXPORT?'':hit(arr,x,y,.72*s,.22*s,w,[x+.3*s])+`<rect x="${f(x+.05*s)}" y="${f(y-.66*s)}" width="${f(.5*s)}" height="${f(.86*s)}" rx="3" fill="none" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="3 3"/>`)+(!EXPORT&&cur.arr===arr?caret(x+.3*s,y,.72*s,.22*s,s):'')}}
  const r=place(its,s);
  return{w:r.w,a:r.A,d:r.D,draw:(x,y)=>(EXPORT?'':hit(arr,x,y,r.A,r.D,r.w,r.xs.map(v=>x+v))+selR(arr,x,y,r))+r.pl.map(p=>p.b.script?p.b.inner.draw(x+p.x,y+p.dy):p.b.draw(x+p.x,y)).join('')+(!EXPORT&&cur.arr===arr?caret(x+r.xs[cur.i],y,r.A,r.D,s):'')}}
@@ -194,10 +251,20 @@ const hit=(arr,x,y,A,D,w,xs)=>{HIT.push({arr,x,y,A,D,w,xs});return''};
 const selR=(arr,x,y,r)=>SEL&&SEL.arr===arr?`<rect x="${f(x+r.xs[SEL.a])}" y="${f(y-r.A)}" width="${f(r.xs[SEL.b]-r.xs[SEL.a])}" height="${f(r.A+r.D)}" fill="#4d8dff" fill-opacity=".35"/>`:'';
 /* ---------- rendering ---------- */
 let TC=false;const colorVal=()=>TC?'#000000':'#ffffff';
+let PX=0,PY=0;
+function ensureCaret(){const d=$('#disp'),sv=$('#svg'),off=document.body.classList.contains('dfs'),dw=d.clientWidth,dh=d.clientHeight,sw=parseFloat(sv.getAttribute('width'))||0,sh=parseFloat(sv.getAttribute('height'))||0;
+ if(off||sw<=dw)PX=0;if(off||sh<=dh)PY=0;
+ PX=Math.min(0,Math.max(Math.min(0,dw-sw),PX));PY=Math.min(0,Math.max(Math.min(0,dh-sh),PY));
+ sv.style.transform='translate('+PX+'px,'+PY+'px)';
+ const c=$('#svg .caret');if(!c||off)return;
+ const cr=c.getBoundingClientRect(),dr=d.getBoundingClientRect(),k=(dr.width/d.offsetWidth)||1,mx=30,my=10;let dx=0,dy=0;
+ if(sw>dw){if(cr.left<dr.left+mx)dx=cr.left-(dr.left+mx);else if(cr.right>dr.right-mx)dx=cr.right-(dr.right-mx)}
+ if(sh>dh){if(cr.top<dr.top+my)dy=cr.top-(dr.top+my);else if(cr.bottom>dr.bottom-my)dy=cr.bottom-(dr.bottom-my)}
+ if(dx||dy){PX=Math.min(0,Math.max(Math.min(0,dw-sw),PX-dx/k));PY=Math.min(0,Math.max(Math.min(0,dh-sh),PY-dy/k));sv.style.transform='translate('+PX+'px,'+PY+'px)'}}
 function render(){EXPORT=false;HIT=[];SEL=selRange();const r=row(root,SZ),pd=22,W=r.w+2*pd,H=r.a+r.d+2*pd,sv=$('#svg');VW=W;VH=H;
- sv.setAttribute('viewBox',`0 0 ${f(W)} ${f(H)}`);sv.setAttribute('width',f(W));sv.setAttribute('height',f(H));
- sv.setAttribute('font-family',FF);sv.style.color=colorVal();sv.style.fill='currentColor';sv.innerHTML=r.draw(pd,pd+r.a);
- $('#disp').classList.toggle('light',colorVal()==='#000000');
+ sv.setAttribute('viewBox',`0 0 ${f(W)} ${f(H)}`);let kk=1;if(document.body.classList.contains('dfs')){const dd=$('#disp');kk=Math.min(4,Math.max(.2,Math.min(dd.clientWidth*.92/W,dd.clientHeight*.86/H)))}sv.setAttribute('width',f(W*kk));sv.setAttribute('height',f(H*kk));
+ sv.setAttribute('font-family',FF);sv.style.color=colorVal();sv.style.fill='currentColor';sv.innerHTML=r.draw(pd,pd+r.a);ensureCaret();
+ $('#disp').classList.toggle('light',colorVal()==='#000000');$('.dw').classList.toggle('light',colorVal()==='#000000');
  const t=tex(root),w=$('#wrap').value;$('#tex').value=t&&w?w+t+w:t}
 function exportSVG(scale){EXPORT=true;const r=row(root,SZ),pd=14,W=r.w+2*pd,H=r.a+r.d+2*pd;
  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${f(W*scale)}" height="${f(H*scale)}" viewBox="0 0 ${f(W)} ${f(H)}" font-family="${FF}" fill="${colorVal()}">${r.draw(pd,pd+r.a).replace(/currentColor/g,colorVal())}</svg>`;
@@ -207,9 +274,13 @@ function toBlob(q=4){return new Promise((res,rej)=>{if(!root.length)return rej(n
  img.onload=()=>{const c=document.createElement('canvas');c.width=Math.ceil(W);c.height=Math.ceil(H);c.getContext('2d').drawImage(img,0,0,c.width,c.height);c.toBlob(b=>b?res(b):rej(new Error('Export failed')),'image/png')};
  img.onerror=()=>rej(new Error('Export failed'));img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg)})}
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('on'),1800)}
-async function savePNG(sc=4){try{const b=await toBlob(sc),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='equation.png';document.body.appendChild(a);a.click();a.remove();toast('PNG saved')}catch(e){toast(e.message)}}
-function saveSVG(){if(!root.length)return toast('Nothing to export yet');const{svg}=exportSVG(2),a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['<?xml version="1.0" encoding="UTF-8"?>\n'+svg],{type:'image/svg+xml'}));a.download='equation.svg';document.body.appendChild(a);a.click();a.remove();toast('SVG saved')}
-async function copyImg(){try{const b=await toBlob(4);await navigator.clipboard.write([new ClipboardItem({'image/png':b})]);toast('Image copied')}catch(e){toast('Copy blocked here – use Save PNG')}}
+async function getDl(){try{if(!window.claude||!claude.use)return null;return await Promise.race([claude.use('downloads'),new Promise(r=>setTimeout(()=>r(null),2500))])}catch(e){return null}}
+async function saveFile(name,blob){const d=await getDl();
+ if(d){try{await d.save({filename:name,data:blob});toast('Saved '+name)}catch(e){toast(e&&e.code==='declined'?'Save cancelled':'Could not save ('+((e&&e.code)||'error')+')')}return}
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();toast('Saved '+name)}
+async function savePNG(sc=4){try{const b=await toBlob(sc);await saveFile(sc>4?'equation-8x.png':'equation.png',b)}catch(e){toast(e.message||'Export failed')}}
+async function saveSVG(){if(!root.length)return toast('Nothing to export yet');try{const{svg}=exportSVG(2);await saveFile('equation.svg',new Blob(['<?xml version="1.0" encoding="UTF-8"?>\n'+svg],{type:'image/svg+xml'}))}catch(e){toast('SVG export failed')}}
+async function copyImg(){try{const b=await toBlob(4);await navigator.clipboard.write([new ClipboardItem({'image/png':b})]);toast('Image copied')}catch(e){toast('Clipboard is blocked here – use the PNG button')}}
 async function copyTex(){render();const v=$('#tex').value;if(!v)return toast('Nothing to copy yet');try{await navigator.clipboard.writeText(v);toast('LaTeX copied')}catch(e){$('#tex').select();try{document.execCommand('copy');toast('LaTeX copied')}catch(_){toast('Select and copy manually')}}}
 /* ---------- actions & keybinds ---------- */
 const A=[],add=(id,label,key,fn,cls='')=>A.push({id,label,key,fn,cls}),C=(v,l)=>()=>ins({t:'c',v,l:l??v});
@@ -224,42 +295,69 @@ add('sq','𝑥²','',()=>{script('s');ins({t:'c',v:'2',l:'2'})},'o');
 add('left','←','ArrowLeft',left);add('right','→','ArrowRight',right);add('up','↑','ArrowUp',()=>vert(-1));add('down','↓','ArrowDown',()=>vert(1));
 add('bs','DEL','Backspace',bs,'g');add('clear','AC','Escape',()=>{root=[];cur={arr:root,i:0};anc=null},'g');
 add('copy','Copy LaTeX','Enter',copyTex);add('png','Save PNG','',()=>savePNG(4));add('png8','Save PNG 8×','',()=>savePNG(8));add('svg','Save SVG','',saveSVG);add('copyimg','Copy image','',copyImg);add('undo','↶','',undo);add('redo','↷','',redo);
+function mixed(){const T=takeSel();let arr,j,whole;if(T){arr=T.arr;j=T.j;whole=T.items}else{arr=cur.arr;const i=cur.i;j=i;while(j>0&&isNum(arr[j-1]))j--;whole=arr.splice(j,i-j)}
+ const m=mk('m',[whole,[],[]]);setPar(whole);arr.splice(j,0,m);m.par=arr;cur={arr:m.slots[whole.length?1:0],i:0}}
+add('mixed','𝑎𝑏⁄𝑐','',mixed,'o');
+function bigop(op,l){const n=mk('b',op==='lim'?[[]]:[[],[]]);n.op=op;n.l=l;ins(n);cur={arr:n.slots[0],i:0}}
+add('sum','∑','',()=>bigop('∑','\\sum'),'o');add('prod','∏','',()=>bigop('∏','\\prod'),'o');add('intab','∫ₐᵇ','',()=>bigop('∫','\\int'),'o');add('lim','lim','',()=>bigop('lim','\\lim'),'o');add('uni','⋃','',()=>bigop('⋃','\\bigcup'),'o');add('ints','⋂','',()=>bigop('⋂','\\bigcap'),'o');
+add('int','∫','',C('∫','\\int'));add('iint','∬','',C('∬','\\iint'));add('iiint','∭','',C('∭','\\iiint'));add('oint','∮','',C('∮','\\oint'));
+add('dd','d','',()=>ins({t:'c',v:'d',l:'\\,\\mathrm{d}',up:1}));
+add('lb','[','',C('[','['));add('rb',']','',C(']',']'));add('lc','{','',C('{','\\{'));add('rc','}','',C('}','\\}'));
+[['alpha','α'],['beta','β'],['gamma','γ'],['delta','δ'],['epsilon','ε'],['zeta','ζ'],['eta','η'],['iota','ι'],['kappa','κ'],['lambda','λ'],['mu','μ'],['nu','ν'],['xi','ξ'],['rho','ρ'],['sigma','σ'],['tau','τ'],['upsilon','υ'],['phi','φ'],['chi','χ'],['psi','ψ'],['omega','ω']].forEach(([n,c])=>add('g_'+n,c,'',C(c,'\\'+n)));
+[['Gamma','Γ'],['Delta','Δ'],['Theta','Θ'],['Lambda','Λ'],['Xi','Ξ'],['Pi','Π'],['Sigma','Σ'],['Phi','Φ'],['Psi','Ψ'],['Omega','Ω']].forEach(([n,c])=>add('G_'+n,c,'',C(c,'\\'+n)));
+[['approx','≈','\\approx'],['equiv','≡','\\equiv'],['sim','∼','\\sim'],['propto','∝','\\propto'],['ll','≪','\\ll'],['gg','≫','\\gg'],['in','∈','\\in'],['notin','∉','\\notin'],['subset','⊂','\\subset'],['subseteq','⊆','\\subseteq'],['supset','⊃','\\supset'],['supseteq','⊇','\\supseteq'],['cup','∪','\\cup'],['cap','∩','\\cap'],['empty','∅','\\emptyset'],['forall','∀','\\forall'],['exists','∃','\\exists'],['neg','¬','\\neg'],['land','∧','\\land'],['lor','∨','\\lor'],['implies','⇒','\\Rightarrow'],['iff','⇔','\\Leftrightarrow'],['rarr','→','\\to'],['larr','←','\\leftarrow'],['lrarr','↔','\\leftrightarrow'],['mapsto','↦','\\mapsto'],['angle','∠','\\angle'],['deg','°','^\\circ'],['parallel','∥','\\parallel'],['perp','⊥','\\perp'],['therefore','∴','\\therefore'],['because','∵','\\because'],['circ','∘','\\circ'],['cdot','·','\\cdot'],['mp','∓','\\mp'],['inf','∞','\\infty'],['partial','∂','\\partial'],['nabla','∇','\\nabla'],['R','ℝ','\\mathbb{R}'],['N','ℕ','\\mathbb{N}'],['Z','ℤ','\\mathbb{Z}'],['Q','ℚ','\\mathbb{Q}'],['C','ℂ','\\mathbb{C}'],['prime','′','\\prime'],['percent','%','\\%'],['fact','!','!'],['bar','|','|'],['colon',':',':'],['ellip','…','\\ldots']].forEach(([n,c,l])=>add('sy_'+n,c,'',C(c,l)));
+['ln','log','exp','sec','csc','cot','sinh','cosh','tanh'].forEach(t=>add('f_'+t,t,'',()=>fn_(t,'\\'+t)));
+['a','b','c','n','m','k','t','z'].forEach(l=>add('v_'+l,l,'',C(l)));
 const byId=Object.fromEntries(A.map(a=>[a.id,a]));
+A.forEach(a=>{if(/^(g_|v_)/.test(a.id))a.html=MI(a.label);if(/^(g_|G_|sy_|v_)/.test(a.id)||['mixed','sum','prod','intab','lim','uni','ints','int','iint','iiint','oint','dd','lb','rb','lc','rc'].includes(a.id))a.v=true});
+const NM={frac:'Fraction',mixed:'Mixed fraction',sqrt:'Square root',nroot:'Nth root',pow:'Power (xⁿ)',sq:'Square (x²)',sub:'Subscript (xₙ)',trig:'Trig menu',itrig:'Inverse trig menu',sin:'sin',cos:'cos',tan:'tan',asin:'sin⁻¹',acos:'cos⁻¹',atan:'tan⁻¹',x:'x',y:'y',pi:'pi',theta:'theta',plus:'Plus',minus:'Minus',times:'Times',div:'Divide',eq:'Equals',pm:'Plus / minus',comma:'Comma',dot:'Decimal point',lp:'Bracket (',rp:'Bracket )',lb:'Square [',rb:'Square ]',lc:'Curly {',rc:'Curly }',le:'Less or equal',ge:'Greater or equal',ne:'Not equal',sum:'Sum',prod:'Product',intab:'Definite integral',lim:'Limit',uni:'Big union',ints:'Big intersection',int:'Integral',iint:'Double integral',iiint:'Triple integral',oint:'Contour integral',dd:'Differential d',left:'Move left',right:'Move right',up:'Move up',down:'Move down',bs:'Delete (DEL)',clear:'Clear all (AC)',undo:'Undo',redo:'Redo',copy:'Copy LaTeX',copyimg:'Copy image',png:'Save PNG',png8:'Save PNG 8×',svg:'Save SVG'};
+A.forEach(a=>{const m=a.id.match(/^(?:g_|G_|f_|v_|sy_)(.+)$/);if(m&&!NM[a.id])NM[a.id]=m[1]});
+['d0','d1','d2','d3','d4','d5','d6','d7','d8','d9'].forEach(i=>NM[i]='Digit '+i[1]);
+const ids=A.map(a=>a.id),pre=p=>ids.filter(i=>i.startsWith(p)),SYC=['sy_partial','sy_nabla','sy_inf'];
+const GROUPS=[['Numbers',[...ids.filter(i=>/^d\d$/.test(i)),'dot']],['Operators & brackets','plus minus times div eq pm comma lp rp lb rb lc rc le ge ne'.split(' ')],['Structures','frac mixed sqrt nroot pow sq sub sum prod intab lim uni ints'.split(' ')],['Calculus','int iint iiint oint dd'.split(' ').concat(SYC)],['Trigonometry & functions',['trig','itrig','sin','cos','tan','asin','acos','atan',...pre('f_')]],['Variables & constants',['x','y','pi','theta',...pre('v_')]],['Greek lowercase',pre('g_')],['Greek uppercase',pre('G_')],['Symbols & logic',pre('sy_').filter(i=>!SYC.includes(i))],['Editing & navigation','left right up down bs clear undo redo'.split(' ')],['Export & copy','copy copyimg png png8 svg'.split(' ')]];
 let B={};const defaults=()=>Object.fromEntries(A.map(a=>[a.id,a.key]));
 function loadB(){B=defaults();try{Object.assign(B,JSON.parse(localStorage.getItem('eqpad-keys')||'{}'))}catch(e){}}
 function saveB(){try{localStorage.setItem('eqpad-keys',JSON.stringify(B))}catch(e){}}
 const kl=k=>({ArrowLeft:'←',ArrowRight:'→',ArrowUp:'↑',ArrowDown:'↓',Backspace:'⌫',Escape:'Esc',Enter:'↵',' ':'Space'}[k]||k);
-const VAR=['x','y','theta','pi','frac','sqrt','nroot','sq','pow','sub'];
+const VAR=['x','y','theta','pi','frac','sqrt','nroot','sq','pow','sub'];VAR.forEach(i=>byId[i].v=true);
 const IC={plus:'M12 5v14M5 12h14',minus:'M5 12h14',times:'M6 6l12 12M18 6L6 18',eq:'M5 9h14M5 15h14',
  div:'M5 12h14M12 6.5h.01M12 17.5h.01',left:'M15 5l-7 7 7 7',right:'M9 5l7 7-7 7',up:'M5 15l7-7 7 7',down:'M5 9l7 7 7-7',
  undo:'M9 14L4 9l5-5M4 9h10.5a5.5 5.5 0 0 1 0 11H11',redo:'M15 14l5-5-5-5M20 9H9.5a5.5 5.5 0 0 0 0 11H13',
  le:'M18 4L7 10l11 6M7 20h11',ge:'M6 4l11 6L6 16M6 20h11',ne:'M5 9h14M5 15h14M16 4L8 20',pm:'M12 4v10M7 9h10M7 19h10'};
 A.forEach(a=>{if(IC[a.id])a.html=`<svg viewBox="0 0 24 24"${a.id==='div'?' style="stroke-width:3.6"':''}><path d="${IC[a.id]}"/></svg>`});
 byId.frac.html='𝑎⁄𝑏';byId.x.html='𝑥';byId.y.html='𝑦';byId.theta.html='𝜃';byId.pi.html='𝜋';
-const LAY=['left up down right undo redo','frac sqrt nroot sq pow sub','trig itrig x y theta pm','lp rp le ge ne','d7 d8 d9 bs clear','d4 d5 d6 times div','d1 d2 d3 plus minus','d0 dot pi comma eq'].map(r=>r.split(' '));
-function menu(w){const m=$('#menu');if(m.dataset.w===w&&!m.hidden){m.hidden=true;return}m.dataset.w=w;m.innerHTML='';['sin','cos','tan'].forEach(t=>{const id=(w==='i'?'a':'')+t,b=document.createElement('button');b.className='k o';b.style.gridColumn='span 10';b.textContent=byId[id].label;b.onmousedown=e=>e.preventDefault();b.onclick=()=>run(id);m.appendChild(b)});m.hidden=false}
+const DEFLAY=['left up down right undo redo','frac sqrt nroot sq pow sub','trig itrig x y theta pm','lp rp le ge ne mixed','d7 d8 d9 bs clear','d4 d5 d6 times div','d1 d2 d3 plus minus','d0 dot pi comma eq'].map(r=>r.split(' '));
+let LAY;try{LAY=JSON.parse(localStorage.getItem('eqpad-layout')||'null')}catch(e){}
+if(!Array.isArray(LAY)||!LAY.every(r=>Array.isArray(r)&&r.length&&r.length<=6&&r.every(id=>byId[id])))LAY=DEFLAY.map(r=>r.slice());
+const saveLay=()=>{try{localStorage.setItem('eqpad-layout',JSON.stringify(LAY))}catch(e){}};
+function menu(w){const m=$('#menu');if(m.dataset.w===w&&!m.hidden){m.hidden=true;return}m.dataset.w=w;m.innerHTML='';['sin','cos','tan'].forEach(t=>{const id=(w==='i'?'a':'')+t,b=document.createElement('button');b.className='k o';b.style.gridColumn='span 20';b.textContent=byId[id].label;b.onmousedown=e=>e.preventDefault();b.onclick=()=>run(id);m.appendChild(b)});m.hidden=false}
 const NAV=['left','right','up','down'];
 function upd(){snap();render()}
 function run(id,sh){if(id!=='trig'&&id!=='itrig')$('#menu').hidden=true;
  if(NAV.includes(id)){if(sh){if(!anc)anc={arr:cur.arr,i:cur.i}}else{const r=selRange();if(r&&(id==='left'||id==='right')){cur={arr:r.arr,i:id==='left'?r.a:r.b};anc=null;return upd()}anc=null}}
  byId[id].fn();upd()}
-function buildPad(){const p=$('#pad');p.innerHTML='';LAY.forEach(rw=>rw.forEach(id=>{const a=byId[id],b=document.createElement('button');b.dataset.id=id;b.style.gridColumn='span '+30/rw.length;b.className='k '+a.cls+(VAR.includes(id)?' v':'');b.type='button';b.innerHTML=(a.html||esc(a.label))+(B[id]?`<small>${esc(kl(B[id]))}</small>`:'');b.onmousedown=e=>e.preventDefault();b.onclick=()=>run(id);p.appendChild(b)}))}
+function buildPad(){const p=$('#pad');p.innerHTML='';p.style.setProperty('--rows',LAY.length);LAY.forEach(rw=>rw.forEach(id=>{const a=byId[id],b=document.createElement('button');b.dataset.id=id;b.style.gridColumn='span '+60/rw.length;b.className='k '+a.cls+(a.v?' v':'');b.type='button';b.innerHTML=(a.html||esc(a.label))+(B[id]?`<small>${esc(kl(B[id]))}</small>`:'');b.onmousedown=e=>e.preventDefault();b.onclick=()=>run(id);p.appendChild(b)}))}
 let capId=null;
-function buildList(){const l=$('#list');l.innerHTML='';A.forEach(a=>{const r=document.createElement('div');r.className='row';r.innerHTML=`<span>${esc(a.label)}</span>`;
- const c=document.createElement('button');c.className='chip'+(capId===a.id?' cap':'');c.textContent=capId===a.id?'press a key…':(B[a.id]?kl(B[a.id]):'—');c.onclick=()=>{capId=capId===a.id?null:a.id;buildList()};
- const x=document.createElement('button');x.className='ib';x.textContent='✕';x.title='Unbind';x.onclick=()=>{B[a.id]='';saveB();buildList();buildPad()};
- const g=document.createElement('span');g.append(c,' ',x);r.appendChild(g);l.appendChild(r)})}
+function buildList(){const l=$('#list'),q=($('#kq').value||'').trim().toLowerCase();l.innerHTML='';let any=false;
+ GROUPS.forEach(([t,ids])=>{const rows=ids.filter(i=>byId[i]&&(!q||(NM[i]||byId[i].label).toLowerCase().includes(q)||byId[i].label.toLowerCase().includes(q)||(B[i]||'').toLowerCase()===q));if(!rows.length)return;any=true;
+  const g=document.createElement('div');g.className='kg';g.innerHTML='<h4>'+esc(t)+'</h4>';const gr=document.createElement('div');gr.className='kgrid';
+  rows.forEach(id=>{const a=byId[id],r=document.createElement('div');r.className='ki';r.innerHTML=`<span class="gl">${a.html||esc(a.label)}</span><span class="nm">${esc(NM[id]||'')}</span>`;
+   const c=document.createElement('button');c.className='chip'+(capId===id?' cap':'');c.textContent=capId===id?'press a key…':(B[id]?kl(B[id]):'—');c.onclick=()=>{capId=capId===id?null:id;buildList()};
+   const x=document.createElement('button');x.className='ib x';x.textContent='✕';x.title='Unbind';x.onclick=()=>{B[id]='';saveB();buildList();buildPad()};r.append(c,x);gr.appendChild(r)});
+  g.appendChild(gr);l.appendChild(g)});
+ if(!any)l.innerHTML='<p class="hint">No actions match.</p>'}
 window.addEventListener('keydown',e=>{
  if(capId){e.preventDefault();if(['Shift','Control','Alt','Meta','CapsLock'].includes(e.key))return;
-  for(const k in B)if(B[k]===e.key)B[k]='';B[capId]=e.key;capId=null;saveB();buildList();buildPad();return}
- if(!$('#modal').hidden||!$('#manual').hidden)return;
+  let prev=null;for(const k in B)if(B[k]===e.key&&k!==capId){prev=k;B[k]=''}B[capId]=e.key;if(prev)toast('Moved from “'+(NM[prev]||byId[prev].label)+'”');capId=null;saveB();buildList();buildPad();return}
+ if(!$('#modal').hidden||!$('#manual').hidden||!$('#kpe').hidden)return;
+ if(e.key==='Escape'&&document.body.classList.contains('dfs')){e.preventDefault();dfs(false);return}
  if(['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)&&e.target.id!=='tex')return;
  if(e.ctrlKey||e.metaKey){const k=e.key.toLowerCase();if(k==='z'){e.preventDefault();run(e.shiftKey?'redo':'undo')}else if(k==='y'){e.preventDefault();run('redo')}else if(k==='a'&&e.target.id!=='tex'){e.preventDefault();anc={arr:root,i:0};cur={arr:root,i:root.length};render()}return}
  if(e.altKey)return;
  if(['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)&&e.target.id!=='tex')return;
  const a=A.find(a=>a.key!==undefined&&B[a.id]===e.key&&e.key!=='');
  if(a){e.preventDefault();run(a.id,e.shiftKey)}else if(/^[a-zA-Z]$/.test(e.key)){e.preventDefault();ins({t:'c',v:e.key,l:e.key});upd()}},true);
-$('#gear').onclick=()=>{buildList();$('#modal').hidden=false};
+$('#gear').onclick=()=>{$('#kq').value='';buildList();$('#modal').hidden=false};$('#kq').oninput=buildList;
 const closeM=()=>{capId=null;$('#modal').hidden=true};$('#close').onclick=closeM;$('#mx').onclick=closeM;$('#modal').addEventListener('pointerdown',e=>{if(e.target===e.currentTarget)closeM()});
 $('#reset').onclick=()=>{B=defaults();capId=null;saveB();buildList();buildPad()};
 $('#png').onclick=()=>savePNG(4);$('#png8').onclick=()=>savePNG(8);$('#svgb').onclick=saveSVG;$('#cimg').onclick=copyImg;$('#gen').onclick=copyTex;$('#wrap').onchange=render;
@@ -317,7 +415,7 @@ function parseText(src,smart){const T=lexT(src);let p=0;
  let out=seq();while(p<T.length){out.push(tc(nx()));out=out.concat(seq())}
  (function adopt(a){a.forEach(n=>{n.par=a;if(n.slots)n.slots.forEach(adopt)})})(out);return out}
 function convert(){const v=$('#pt').value.trim();if(!v)return;const ns=parseText(v,true);delSel();cur.arr.splice(cur.i,0,...ns);ns.forEach(n=>n.par=cur.arr);cur.i+=ns.length;anc=null;$('#pt').value='';upd();toast('Added to your equation')}
-const gp=$('#gp');function gset(o){gp.classList.toggle('open',o);$('#gtog').textContent=(o?'◂':'▸')+' Plain text to LaTeX';if(o)setTimeout(()=>$('#pt').focus(),280);else $('#pt').blur()}
+const gp=$('#gp');function gset(o){gp.classList.toggle('open',o);if(o&&typeof MOB!=='undefined'&&MOB)window.scrollTo({top:homeY(),behavior:'smooth'});$('#gtog').textContent=(o?'◂':'▸')+' Plain text to LaTeX';if(o)setTimeout(()=>$('#pt').focus(),280);else $('#pt').blur()}
 $('#gtog').onclick=()=>gset(!gp.classList.contains('open'));
 $('#conv').onclick=convert;$('#pt').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();convert()}});
 /* theme + saved-formulas drawer */
@@ -325,26 +423,22 @@ let LIGHT=true;try{const t=localStorage.getItem('eqpad-theme');LIGHT=t?t==='ligh
 const SUN=`<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>`,MOON=`<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg>`;
 function theme(save){document.documentElement.dataset.theme=LIGHT?'light':'dark';$('#lmi').innerHTML=LIGHT?SUN:MOON;$('#lm').checked=LIGHT;if(save)try{localStorage.setItem('eqpad-theme',LIGHT?'light':'dark')}catch(e){}}
 $('#lm').onchange=()=>{LIGHT=$('#lm').checked;theme(true)};theme(false);
-const sd=$('#side'),sset=o=>{sd.classList.toggle('open',o);document.body.classList.toggle('lo',o)};$('#sidebtn').onclick=()=>sset(!sd.classList.contains('open'));$('#sideclose').onclick=()=>sset(false);const rs=$('#rside'),rset=o=>{rs.classList.toggle('open',o);document.body.classList.toggle('ro',o)};$('#rbtn').onclick=()=>rset(!rs.classList.contains('open'));$('#rclose').onclick=()=>rset(false);if(innerWidth>=1200)rset(true);
+const sd=$('#side'),sset=o=>{sd.classList.toggle('open',o);document.body.classList.toggle('lo',o)};$('#sidebtn').onclick=()=>sset(!sd.classList.contains('open'));$('#sideclose').onclick=()=>sset(false);const rs=$('#rside'),rset=o=>{rs.classList.toggle('open',o);document.body.classList.toggle('ro',o)};$('#rbtn').onclick=()=>rset(!rs.classList.contains('open'));$('#rclose').onclick=()=>rset(false);
 /* ---------- interactive tour + guide ---------- */
+const FILL='(2x^2+14x+24)/x^2-5x-36';
 const TOUR=[
-{s:['#disp'],t:'This is the <b>display</b>. What you write appears here exactly as it will be exported. Click to place the caret, drag to select.'},
-{s:['[data-id=left]','[data-id=redo]'],t:'Arrows move the caret (↑ ↓ jump top/bottom of a fraction). The curved arrows are <b>undo</b> and <b>redo</b>.'},
-{s:['[data-id=frac]'],t:'<b>a⁄b</b> makes a fraction. Select something like 53+91 first and it becomes the numerator. Try it!'},
-{s:['[data-id=sqrt]','[data-id=nroot]'],t:'<b>√</b> is a square root. <b>ⁿ√</b> is any root: type the index, then press → to enter the root.'},
-{s:['[data-id=sq]','[data-id=sub]'],t:'<b>𝑥²</b> squares, <b>𝑥ⁿ</b> is any power, <b>𝑥ₙ</b> a subscript. Press → to leave the small box.'},
+{s:['#disp'],t:'This is the <b>display</b>. What you write appears here exactly as it will be exported. <b>Click</b> to place the caret, drag to select.'},
+{s:['#fsb'],t:'On desktop, this button shows <b>only the display</b>, fullscreen, hiding everything else. Press Esc to leave.'},
+{s:['#pad'],t:'This is the <b>keypad</b>. Click the keys, or type on your keyboard.'},
 {s:['[data-id=trig]','[data-id=itrig]'],t:'These open a menu of <b>sin cos tan</b> and their inverses. Brackets are added for you.'},
-{s:['[data-id=x]','[data-id=pm]'],t:'Variables, θ and ±. Any letter on your keyboard types a variable too.'},
-{s:['[data-id=lp]','[data-id=ne]'],t:'Brackets grow to fit tall content. ≤ ≥ ≠ live here too.'},
-{s:['[data-id=d7]','[data-id=clear]','[data-id=d0]','[data-id=eq]'],t:'Numbers, operators, π, comma and =. <b>DEL</b> deletes and <b>AC</b> clears everything.'},
 {s:['#gtog'],t:'<b>Plain text to LaTeX</b>: this button opens a typing box above the keypad.'},
-{s:['#gp'],open:'gp',t:'Type something like <b>(2x+1)/2x^2-5x+34</b> and press Enter. It is added at the caret; nothing is cleared.'},
-{s:['.rcol'],t:'<b>Export</b> as PNG, a double-size PNG, SVG, or copy the image to paste into Word or Docs. Backgrounds are transparent.'},
+{s:['#conv'],open:'gp',fill:FILL,t:'An example is already typed in. Press the <b>→ Equation</b> button to add it to your display (it is added at the caret, nothing is cleared).'},
+{s:['#exp'],t:'<b>Export</b> as PNG, a double-size PNG, SVG, or copy the image to paste into Word or Docs. Backgrounds are transparent.'},
 {s:['#tcb'],t:'Switch the <b>text colour</b> of exported images between white and black.'},
 {s:['#side'],open:'side',t:'<b>Saved equations</b>: save, load, update or copy the LaTeX of anything you wrote. Stored in this browser.'},
-{s:['#rside'],open:'rside',t:'The <b>LaTeX panel</b> shows live LaTeX. Pick plain, $…$ or $$…$$ and copy it.'},
-{s:['label.sw','#gear'],t:'Switch <b>light/dark</b> mode, and change keyboard shortcuts in <b>Keybinds</b>.'},
-{s:['#helpb'],t:'Reopen this tour any time from here. Next: the full written guide, with how the converter reads text.'}];
+{s:['#rside'],open:'rside',t:'The <b>LaTeX panel</b> (the LaTeX button under Copy image) shows live LaTeX. Pick plain, $…$ or $$…$$ and copy it.'},
+{s:['label.sw','#kpb','#gear'],t:'Scroll down one step for <b>light/dark</b> mode, <b>Customize keypad</b> (build your own keypad with integrals, Greek letters, braces and more) and <b>Keybinds</b>.'},
+{s:['#helpb'],t:'Reopen the tour or the written guide any time from here. Next: the full written guide.'}];
 let ti=-1,tinit=null;
 const tEl=document.createElement('div');tEl.id='tour';tEl.hidden=true;
 tEl.innerHTML='<svg id="tsv"><line id="tln"/><polygon id="tah"/></svg><div id="tring"></div><div id="tcard"><button id="tx" title="Close tour">✕</button><div id="ttxt"></div><div class="tf"><span id="tcnt"></span><span><button class="ib" id="tprev">Back</button> <button class="pri" id="tnext">Next</button></span></div></div>';
@@ -365,19 +459,60 @@ function tPlace(){if(ti<0)return;const r=tRect(),card=$('#tcard'),ring=$('#tring
  const T={x:r.x-p-3,y:r.y-p-3,w:r.w+2*p+6,h:r.h+2*p+6},[sx,sy]=bnd(C,r.x+r.w/2,r.y+r.h/2),[ex,ey]=bnd(T,C.x+C.w/2,C.y+C.h/2),a=Math.atan2(ey-sy,ex-sx),hx=ex-12*Math.cos(a),hy=ey-12*Math.sin(a);
  ln.setAttribute('x1',sx);ln.setAttribute('y1',sy);ln.setAttribute('x2',hx);ln.setAttribute('y2',hy);
  ah.setAttribute('points',`${ex},${ey} ${hx-7*Math.sin(a)},${hy+7*Math.cos(a)} ${hx+7*Math.sin(a)},${hy-7*Math.cos(a)}`)}
-function tShow(i){ti=i;const st=TOUR[i];gset(st.open==='gp');sset(st.open==='side'||tinit.side);rset(st.open==='rside'||tinit.rside);
- $('#ttxt').innerHTML=st.t;$('#tcnt').textContent=(i+1)+' / '+TOUR.length;$('#tprev').style.visibility=i?'visible':'hidden';$('#tnext').textContent=i===TOUR.length-1?'Open full guide':'Next';
+function tShow(i,d=1){ti=i;const st=TOUR[i];if(!st.open&&!tRect()&&i+d>=0&&i+d<TOUR.length)return tShow(i+d,d);gset(st.open==='gp');sset(st.open==='side'||tinit.side);rset(st.open==='rside'||tinit.rside);
+ $('#ttxt').innerHTML=st.t;if(st.fill)$('#pt').value=st.fill;else if($('#pt').value===FILL)$('#pt').value='';$('#tcnt').textContent=(i+1)+' / '+TOUR.length;$('#tprev').style.visibility=i?'visible':'hidden';$('#tnext').textContent=i===TOUR.length-1?'Open full guide':'Next';
  const e=document.querySelector(st.s[0]);if(e&&!st.open){const r=e.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)e.scrollIntoView({block:'center'})}
  tPlace();setTimeout(tPlace,120);setTimeout(tPlace,350);setTimeout(tPlace,700)}
-function tStart(){$('#manual').hidden=true;$('#modal').hidden=true;tinit={gp:gp.classList.contains('open'),side:sd.classList.contains('open'),rside:rs.classList.contains('open')};tEl.hidden=false;tShow(0)}
-function tEnd(){if(ti<0)return;ti=-1;tEl.hidden=true;gset(tinit.gp);sset(tinit.side);rset(tinit.rside);try{localStorage.setItem('eqpad-tour','1')}catch(e){}}
+function tStart(){$('#manual').hidden=true;$('#modal').hidden=true;tinit={doc:JSON.stringify(ser(root)),gp:gp.classList.contains('open'),side:sd.classList.contains('open'),rside:rs.classList.contains('open')};tEl.hidden=false;tShow(0)}
+function tEnd(){if(ti<0)return;ti=-1;tEl.hidden=true;if($('#pt').value===FILL)$('#pt').value='';root=des(JSON.parse(tinit.doc));cur={arr:root,i:root.length};anc=null;upd();gset(tinit.gp);sset(tinit.side);rset(tinit.rside);if(MOB)window.scrollTo(0,homeY());try{localStorage.setItem('eqpad-tour','1')}catch(e){}}
 function openManual(){$('#manual').hidden=false;$('#mbody').scrollTop=0}
 $('#tnext').onclick=()=>{if(ti<TOUR.length-1)tShow(ti+1);else{tEnd();openManual()}};
-$('#tprev').onclick=()=>{if(ti>0)tShow(ti-1)};$('#tx').onclick=tEnd;
+$('#tprev').onclick=()=>{if(ti>0)tShow(ti-1,-1)};$('#tx').onclick=tEnd;
 window.addEventListener('resize',tPlace);window.addEventListener('scroll',tPlace,true);
-$('#helpb').onclick=tStart;
+const hm=document.createElement('div');hm.id='hmenu';hm.hidden=true;hm.innerHTML='<button class="ib" id="hm1">▶ Interactive tour</button><button class="ib" id="hm2">📖 Written guide</button>';document.body.appendChild(hm);
+$('#helpb').onclick=e=>{e.stopPropagation();const r=$('#helpb').getBoundingClientRect();hm.hidden=!hm.hidden;hm.style.left=Math.max(8,Math.min(r.left,innerWidth-190))+'px';hm.style.top=Math.max(8,r.top-hm.offsetHeight-8)+'px'};
+$('#hm1').onclick=()=>{hm.hidden=true;tStart()};$('#hm2').onclick=()=>{hm.hidden=true;openManual()};
+document.addEventListener('pointerdown',e=>{if(!hm.hidden&&!hm.contains(e.target)&&e.target!==$('#helpb'))hm.hidden=true});
+/* fullscreen + responsive placement of the side columns */
+const FS1='<svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>',FS0='<svg viewBox="0 0 24 24"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>';
+function fsUpd(){$('#fsb').innerHTML=document.body.classList.contains('dfs')?FS0:FS1}
+function dfs(on){document.body.classList.toggle('dfs',on);if(on){try{const p=$('.dw').requestFullscreen&&$('.dw').requestFullscreen();if(p&&p.catch)p.catch(()=>{})}catch(e){}}else if(document.fullscreenElement){try{document.exitFullscreen()}catch(e){}}fsUpd();fit();render()}
+$('#fsb').onclick=()=>dfs(!document.body.classList.contains('dfs'));
+document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement&&document.body.classList.contains('dfs'))dfs(false)});fsUpd();
+/* whole-page zoom: keep every size as designed, scale the page like browser zoom */
+let NARROW=null;
+function setNarrow(n){if(n===NARROW)return;NARROW=n;const lc=$('#lcol'),rc=$('#rcol');if(n){$('#below').prepend(rc);$('#below').prepend(lc)}else{$('.layout').insertBefore(lc,$('.main'));$('.layout').appendChild(rc)}lc.classList.toggle('inb',n);rc.classList.toggle('inb',n)}
+const PADF=16;
+const mqm=matchMedia('(max-width:820px)');
+let MOB=null,MOBINIT=false;const homeY=()=>$('#topbar').offsetHeight;
+function setMob(m){if(m===MOB)return;MOB=m;const lc=$('#lcol'),rc=$('#rcol');if(m){$('#topbar').append($('#sidebtn'),$('#tcb'),$('#rbtn'))}else{lc.prepend($('#sidebtn'));lc.append($('#tcb'));rc.append($('#rbtn'))}}
+function fit(){const mob=mqm.matches;document.documentElement.classList.toggle('mob',mob);setMob(mob);
+ if(!mob)MOBINIT=false;
+ if(mob){setNarrow(true);$('#fit').style.cssText='';$('#screen').style.height='';document.documentElement.classList.remove('free');if(!MOBINIT){MOBINIT=true;requestAnimationFrame(()=>window.scrollTo(0,homeY()))}tPlace();return}
+ const sc=$('#screen'),fi=$('#fit'),vw=sc.clientWidth-2*PADF,vh=innerHeight-2*PADF,H0=$('.main').offsetHeight,kh=vh/H0,bs=getComputedStyle(document.body),drawer=parseFloat(bs.paddingLeft)+parseFloat(bs.paddingRight)>0,wide=kh*900<=vw+.5||(drawer&&vw>=700);
+ setNarrow(!wide);const W0=wide?900:520,k=wide?Math.min(kh,vw/900):Math.min(kh,vw/520),free=k<kh-1e-6;
+ fi.style.width=W0+'px';fi.style.transform='scale('+k+')';fi.style.left=(PADF+Math.max(0,(vw-W0*k)/2))+'px';fi.style.top=PADF+'px';
+ sc.style.height=(free?H0*k+2*PADF:innerHeight)+'px';document.documentElement.classList.toggle('free',free);tPlace()}
+const ro=new ResizeObserver(()=>requestAnimationFrame(fit));ro.observe($('#screen'));ro.observe($('.main'));
+window.addEventListener('resize',fit);mqm.addEventListener('change',fit);window.addEventListener('load',()=>{if(MOB&&scrollY<2)window.scrollTo(0,homeY())});fit();
 $('#mclose').onclick=()=>{$('#manual').hidden=true};$('#mtour').onclick=tStart;
 $('#manual').addEventListener('pointerdown',e=>{if(e.target===e.currentTarget)$('#manual').hidden=true});
+/* ---------- keypad editor ---------- */
+let SELR=0,SELC=0;const kpe=$('#kpe');
+function kpSave(){saveLay();kpRender();buildPad()}
+function kpRow(k,r){const rw=LAY[r];if(k==='up'&&r>0){[LAY[r-1],LAY[r]]=[LAY[r],LAY[r-1]];SELR=r-1}else if(k==='dn'&&r<LAY.length-1){[LAY[r+1],LAY[r]]=[LAY[r],LAY[r+1]];SELR=r+1}else if(k==='add'&&rw.length<6){rw.push('x');SELR=r;SELC=rw.length-1}else if(k==='del'&&LAY.length>1){LAY.splice(r,1);SELR=Math.max(0,r-1);SELC=0}kpSave()}
+function kpRender(){const L=$('#kpl');L.innerHTML='';SELR=Math.min(SELR,LAY.length-1);SELC=Math.min(SELC,LAY[SELR].length-1);
+ LAY.forEach((rw,r)=>{const d=document.createElement('div');d.className='kr';
+  rw.forEach((id,c)=>{const a=byId[id],b=document.createElement('button');b.className='ks'+(a.v?' v':'')+(r===SELR&&c===SELC?' sel':'');b.innerHTML=a.html||esc(a.label);b.onclick=()=>{SELR=r;SELC=c;kpRender()};d.appendChild(b)});
+  [['up','↑','Move row up'],['dn','↓','Move row down'],['add','+','Add a key to this row'],['del','✕','Delete this row']].forEach(([k,t,h])=>{const b=document.createElement('button');b.className='ib kc';b.textContent=t;b.title=h;b.onclick=()=>kpRow(k,r);d.appendChild(b)});L.appendChild(d)});
+ const f2=document.createElement('div');f2.className='bar';f2.style.marginTop='10px';f2.innerHTML='<button class="ib" id="kpar">+ Add row</button><button class="ib" id="kprk">Remove selected key</button>';L.appendChild(f2);
+ $('#kpar').onclick=()=>{LAY.push(['x']);SELR=LAY.length-1;SELC=0;kpSave()};
+ $('#kprk').onclick=()=>{const rw=LAY[SELR];rw.splice(SELC,1);if(!rw.length){if(LAY.length>1)LAY.splice(SELR,1);else rw.push('x')}kpSave()}}
+function kpPalette(){const P=$('#kpp');P.innerHTML='';GROUPS.forEach(([t,ids])=>{const ok=ids.filter(i=>byId[i]);if(!ok.length)return;const h=document.createElement('h4');h.textContent=t;P.appendChild(h);const g=document.createElement('div');g.className='kpg';
+ ok.forEach(id=>{const a=byId[id],b=document.createElement('button');b.className='ks'+(a.v?' v':'');b.innerHTML=a.html||esc(a.label);b.title=NM[id]||a.label;b.onclick=()=>{LAY[SELR][SELC]=id;kpSave()};g.appendChild(b)});P.appendChild(g)})}
+const kpClose=()=>{kpe.hidden=true};
+$('#kpb').onclick=()=>{kpRender();kpPalette();kpe.hidden=false};$('#kpx').onclick=kpClose;$('#kpdone').onclick=kpClose;kpe.addEventListener('pointerdown',e=>{if(e.target===kpe)kpClose()});
+$('#kpreset').onclick=()=>{LAY=DEFLAY.map(r=>r.slice());SELR=0;SELC=0;kpSave()};
 /* mouse / touch caret + selection */
 function pick(e){const b=$('#svg').getBoundingClientRect(),px=(e.clientX-b.left)*VW/b.width,py=(e.clientY-b.top)*VH/b.height;let best=null,bd=1e9;
  HIT.forEach(h=>{const dx=Math.max(h.x-px,0,px-h.x-h.w),dy=Math.max(h.y-h.A-py,0,py-h.y-h.D),d=dx*dx+dy*dy;if(d<=bd){bd=d;best=h}});
