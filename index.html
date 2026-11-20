@@ -2,6 +2,11 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Equation Pad</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#3b6df0">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Equation Pad"><meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&display=swap">
 <style>
 :root{--bg:#f4f5f7;--panel:#fff;--ink:#1b1f27;--mut:#6b7280;--line:#d9dce3;--key:#eef0f4;--acc:#3b6df0;--op:#dfe6fb;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -15,21 +20,26 @@ html{scroll-snap-type:y mandatory;overflow-y:auto}
 #fsb{position:absolute;top:8px;right:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;cursor:pointer;padding:0}#fsb svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .dw.light #fsb{color:#222;border-color:rgba(0,0,0,.25);background:rgba(0,0,0,.06)}
 #exp{display:flex;flex-direction:column;gap:8px}
+#llist{overflow:auto;flex:1;min-height:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px;margin-top:6px;align-content:start}
+.li{display:flex;flex-direction:column;gap:6px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}.li .lt{display:flex;justify-content:space-between;gap:8px;align-items:baseline}.lc{color:var(--mut);font-size:12px;white-space:nowrap}
+.lth{overflow:auto;min-height:44px;display:flex;align-items:center}.la{display:flex;gap:6px}.la button{padding:5px 12px}
+.ib.chipc{padding:5px 12px;border-radius:16px;font-size:13px}.ib.chipc.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.ldev{margin-top:8px;border-top:1px solid var(--line);padding-top:8px}.ldev summary{cursor:pointer;font-weight:600}
 .topbar{display:none}
 html.mob .topbar{display:flex;gap:6px;padding:10px;scroll-snap-align:start}
 html.mob .topbar .ib{flex:1;min-width:0;width:auto;max-width:none;padding:11px 6px;font-size:15px;font-weight:600;line-height:1.1}
-html.mob .screen{position:static;overflow:visible;height:100vh;height:100dvh;min-height:520px;display:flex;flex-direction:column;padding:0 10px 6px}
+html.mob .screen{position:static;overflow:visible;height:var(--sh,100vh);min-height:520px;display:flex;flex-direction:column;padding:0 10px 6px}
 html.mob .fit{position:static!important;transform:none!important;width:auto!important;flex:1;min-height:0;display:flex;flex-direction:column}
 html.mob .layout{flex:1;min-height:0;flex-direction:column;align-items:stretch;gap:8px}
 html.mob .main{flex:1 1 auto;min-height:0;width:100%;gap:8px}
-html.mob .dw{flex:0 0 clamp(120px,25vh,270px);height:auto}
+html.mob .dw{flex:0 0 var(--dh,180px);height:auto;min-height:0}
 html.mob .gp:not(.open){margin-top:-8px}
 html.mob #pad{flex:1;min-height:0;grid-auto-rows:auto;grid-template-rows:repeat(var(--rows,8),minmax(0,1fr))}
 html.mob #menu{flex:none}html.mob #menu .k{height:46px}
-html.mob .k{height:100%;min-height:0;font:600 clamp(16px,2.7vh,30px)/1 'Outfit','Poppins','Segoe UI',system-ui,sans-serif}
-html.mob .k.v{font:400 clamp(18px,3.1vh,34px)/1 'Cambria Math','STIX Two Math','Times New Roman',serif}
-html.mob .k.g{font:700 clamp(14px,2.3vh,22px)/1 'Outfit',system-ui,sans-serif}
-html.mob .k svg{width:clamp(18px,3vh,32px);height:clamp(18px,3vh,32px)}
+html.mob .k{height:100%;min-height:0;font:600 clamp(16px,calc(var(--u,7.8px)*2.7),30px)/1 'Outfit','Poppins','Segoe UI',system-ui,sans-serif}
+html.mob .k.v{font:400 clamp(18px,calc(var(--u,7.8px)*3.1),34px)/1 'Cambria Math','STIX Two Math','Times New Roman',serif}
+html.mob .k.g{font:700 clamp(14px,calc(var(--u,7.8px)*2.3),22px)/1 'Outfit',system-ui,sans-serif}
+html.mob .k svg{width:clamp(18px,calc(var(--u,7.8px)*3),32px);height:clamp(18px,calc(var(--u,7.8px)*3),32px)}
 body.dfs{overflow:hidden}body.dfs .fit{transform:none!important}body.dfs .dw{position:fixed;inset:0;height:auto;z-index:15}body.dfs #disp{border-radius:0;border:0}
 @media (max-width:820px),(pointer:coarse){#fsb{display:none}}
 .box.kb{max-width:1040px;width:94vw;height:88vh;max-height:88vh}#list{overflow:auto;flex:1;min-height:0;margin-top:6px}
@@ -52,7 +62,7 @@ body.dfs{overflow:hidden}body.dfs .fit{transform:none!important}body.dfs .dw{pos
 header{display:flex;justify-content:space-between;align-items:center}h1{font-size:17px;margin:0}
 button,select,input{font:inherit;color:var(--ink)}
 .ib{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer}
-#disp{height:100%;border-radius:12px;border:1px solid var(--line);overflow:hidden;display:flex;background:#1f2430;transition:background .15s}
+#disp{position:absolute;inset:0;border-radius:12px;border:1px solid var(--line);overflow:hidden;display:flex;background:#1f2430;transition:background .15s}
 #disp.light{background:#f2f2f2}
 #svg{margin:auto;display:block;flex:none}
 .caret{animation:bl 1s steps(1) infinite}@keyframes bl{50%{opacity:0}}
@@ -80,7 +90,7 @@ textarea{width:100%;resize:vertical;background:var(--bg);color:var(--ink);border
 </style></head><body>
 <div class="topbar" id="topbar"></div>
 <div class="screen" id="screen"><div class="fit" id="fit"><div class="layout">
-<div class="lcol" id="lcol"><button class="ib xb" id="sidebtn">☰ Saved equations</button><button class="ib xb" id="gtog">▸ Plain text to LaTeX</button><button class="ib xb" id="tcb"></button></div>
+<div class="lcol" id="lcol"><button class="ib xb" id="sidebtn">☰ Saved equations</button><button class="ib xb" id="libb">📚 Formula library</button><button class="ib xb" id="gtog">▸ Plain text to LaTeX</button><button class="ib xb" id="tcb"></button></div>
 <div class="main">
 <div class="dw"><div id="disp"><svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg></div><button id="fsb" title="Fullscreen" aria-label="Fullscreen"></button></div>
 <div class="gp" id="gp"><div class="bar" style="flex-wrap:nowrap"><input class="ib" id="pt" placeholder="plain text to latex" style="flex:1;min-width:0"><button class="pri" id="conv">→ Equation</button></div></div>
@@ -88,7 +98,7 @@ textarea{width:100%;resize:vertical;background:var(--bg);color:var(--ink);border
 </div>
 <div class="rcol" id="rcol"><div id="exp"><button class="pri xb" id="png">PNG</button><button class="pri xb" id="png8">PNG 8×</button><button class="pri xb" id="svgb">SVG</button><button class="ib xb" id="cimg">Copy image</button></div><button class="ib xb" id="rbtn">LaTeX ☰</button></div>
 </div></div></div>
-<div class="below" id="below"><label class="sw" title="Light / dark mode"><span id="lmi" style="display:inline-flex"></span><input type="checkbox" id="lm"><i></i></label><button class="ib" id="helpb">? Tour &amp; guide</button><button class="ib" id="kpb">⌨ Customize keypad</button><button class="ib" id="gear">⚙ Keybinds</button></div>
+<div class="below" id="below"><label class="sw" title="Light / dark mode"><span id="lmi" style="display:inline-flex"></span><input type="checkbox" id="lm"><i></i></label><button class="ib" id="instb" hidden>⤓ Install app</button><button class="ib" id="helpb">? Tour &amp; guide</button><button class="ib" id="kpb">⌨ Customize keypad</button><button class="ib" id="gear">⚙ Keybinds</button></div>
 <div class="modal" id="manual" hidden><div class="box" style="max-width:760px"><div class="bar" style="justify-content:space-between"><h2 style="margin:0">Guide</h2><span class="bar"><button class="ib" id="mtour">Restart tour</button><button class="ib" id="mclose">✕</button></span></div><div id="mbody">
 <h3>1. The display and caret</h3>
 <p>Type on your keyboard or click the keypad. Click anywhere in the equation to move the caret. Drag, or hold Shift and press the arrow keys, to select; Ctrl/Cmd+A selects everything. Typing, DEL or Backspace replaces or deletes a selection. ← → move through the equation and in and out of fractions, roots and powers. ↑ ↓ jump between the top and bottom of a fraction. Backspace on an empty fraction, root or power removes it; on a filled one it first steps into it.</p>
@@ -118,7 +128,11 @@ textarea{width:100%;resize:vertical;background:var(--bg);color:var(--ink);border
 <tr><td><code>root(3,x+1)</code></td><td>cube root of x+1 (any index)</td></tr>
 <tr><td><code>sin(x)</code> &nbsp;<code>sinx</code> &nbsp;<code>arcsin(x)</code> &nbsp;<code>asin(x)</code></td><td>sin x, sin x, sin⁻¹ x, sin⁻¹ x</td></tr>
 <tr><td><code>pi</code> <code>theta</code> <code>alpha</code> <code>beta</code> <code>gamma</code> <code>delta</code> <code>lambda</code> <code>sigma</code> <code>omega</code> <code>phi</code> <code>epsilon</code></td><td>Greek letters</td></tr>
-<tr><td><code>&lt;=</code> &nbsp;<code>&gt;=</code> &nbsp;<code>!=</code> &nbsp;<code>+-</code></td><td>≤ ≥ ≠ ±</td></tr>
+<tr><td><code>&lt;=</code> &nbsp;<code>&gt;=</code> &nbsp;<code>!=</code> &nbsp;<code>+-</code> &nbsp;<code>-&gt;</code></td><td>≤ ≥ ≠ ± →</td></tr>
+<tr><td><code>int_0^1 x^2 dx</code> &nbsp;<code>int x dx</code></td><td>definite and indefinite integrals (the d before a letter becomes an upright differential)</td></tr>
+<tr><td><code>sum_(i=1)^n i</code> &nbsp;<code>prod_(k=1)^n k</code></td><td>sum and product with limits</td></tr>
+<tr><td><code>lim_(x-&gt;0) sin(x)/x</code></td><td>limit with the fraction as its body</td></tr>
+<tr><td><code>inf</code> &nbsp;<code>infty</code></td><td>∞</td></tr>
 </table>
 <p><b>Order of operations.</b> Powers bind tightest, then implicit multiplication (2x, xy, 2(x+1), 3sin x), then * and /, then + and −. <code>*</code> and <code>·</code> become ×. Letter runs that are not a known name are split into separate variables, so <code>xy</code> is x·y and <code>sinx</code> is sin x.</p>
 <p><b>Denominators.</b> The bottom of a fraction is the implicit-multiplication group right after the /, so <code>1/2x</code> is 1 over 2x. One special rule: when the top is a bracketed group containing + or −, and the bottom is not bracketed, everything after the / up to the next = , &lt; , &gt; or closing bracket becomes the bottom. That is why <code>(2x^2+14x+24)/x^2-5x-36</code> gives the whole x²−5x−36 underneath. If you want something different, bracket the bottom yourself: <code>(2x^2+14x+24)/(x^2)-5x-36</code>.</p>
@@ -132,10 +146,13 @@ textarea{width:100%;resize:vertical;background:var(--bg);color:var(--ink);border
 <p>Open the Saved equations drawer on the left. Give the equation an optional name and press Save current. Load puts a saved equation in the display (replacing the current one), Update overwrites it with what is on screen, TeX copies its LaTeX and ✕ deletes it. Saved equations live in this browser only; clearing site data erases them.</p>
 <h3>11. Keybinds</h3>
 <p>Keybinds lists every action in groups, in several columns, with a search box. Click the key box, then press the key you want; clicking the box again cancels. ✕ unbinds, and Reset defaults restores the original keys. If you bind a key that is already used, the old action loses it. Any unbound letter key simply types that variable. Settings are saved in this browser.</p>
-<h3>12. Customize keypad</h3>
+<h3>12. Formula library</h3>
+<p>The “Formula library” button (under Saved equations) opens a searchable list of ready-made formulas: algebra, geometry, trigonometry, calculus, series, statistics, physics and more. Type in the search box (words are matched against the title, topic, tags and the formula itself) or pick a category. Insert puts the formula at the caret (replacing a selection); LaTeX copies its LaTeX.</p>
+<p><b>Building the library.</b> Open “Build the library” in that window. Write any equation in the display, give it a title, category and tags, and press “Add current display as an entry”: it is stored in this browser and its JSON entry is copied. “Export my entries” saves them as a .json file and “Import JSON…” loads one, so entries can be shared or merged into the built-in list. An entry is <code>{"title","cat","tags":[…],"p":"plain text"}</code> (converted by the plain-text converter; <code>p</code> may be a list of pieces that are joined) or <code>{…,"j":[tree]}</code> for an exact tree. A file called library.json next to the page is loaded automatically.</p>
+<h3>13. Customize keypad</h3>
 <p>Press “Customize keypad” (below the keypad, one scroll down). The left side shows your keypad as rows of slots; the right side is a library of every key: numbers, operators, brackets including [ ] and { }, structures, trigonometry and functions, Greek letters (lower and upper case), calculus keys, and symbols for sets, logic and arrows. Click a slot, then click a library key to put it there. The row buttons move a row up or down, add a key to it (up to 6 per row) or delete it. “Remove selected key” and “+ Add row” change the shape. Everything saves in this browser; “Reset to default” restores the original keypad. Every library key can also get a keyboard shortcut in Keybinds.</p>
 <p><b>Sum, product, integral, limit and unions</b> are structures with a lower and an upper box (limit has only a lower one). The ∑ ∏ ⋃ ⋂ and lim keys place the boxes below and above; the definite integral ∫ₐᵇ places them at the side like in print. Press → to move from the lower to the upper box, or use ↑ ↓. The plain ∫ ∬ ∭ ∮ keys insert just the sign, and the d key inserts an upright differential for things like ∫ f(x) dx. Curly, square and round brackets grow to fit tall content.</p>
-<h3>13. Light and dark mode</h3>
+<h3>14. Light and dark mode</h3>
 <p>The switch with the sun or moon icon changes the whole page and follows your system until you change it. Scroll down one step to find it, together with Keybinds and this guide. On desktop, the corner button on the display shows only the display, fullscreen, with the equation scaled up to fill it; press Esc or the same button to leave.</p>
 </div></div></div>
 <aside id="rside"><div class="bar" style="justify-content:space-between;margin-bottom:8px"><b>LaTeX</b><button class="ib" id="rclose">✕</button></div><div class="tex"><textarea id="tex" rows="16" readonly placeholder="LaTeX appears here"></textarea>
@@ -145,6 +162,14 @@ textarea{width:100%;resize:vertical;background:var(--bg);color:var(--ink);border
 <div class="modal" id="modal" hidden><div class="box kb"><div class="bar" style="justify-content:space-between;gap:10px;flex-wrap:nowrap"><h2 style="margin:0">Keybinds</h2><input class="ib" id="kq" placeholder="Search actions…" style="flex:1;min-width:0;max-width:340px"><button class="ib" id="mx">✕</button></div>
 <p class="hint">Click a key box, then press the keyboard key you want (click it again to cancel). ✕ unbinds. Unbound letters simply type that letter. Saved in this browser.</p>
 <div id="list"></div><div class="bar" style="margin-top:10px;justify-content:space-between"><button class="ib" id="reset">Reset defaults</button><button class="pri" id="close">Done</button></div></div></div>
+<div class="modal" id="libm" hidden><div class="box kb"><div class="bar" style="justify-content:space-between;gap:10px;flex-wrap:nowrap"><h2 style="margin:0">Formula library</h2><input class="ib" id="lq" placeholder="Search formulas, topics, tags…" style="flex:1;min-width:0;max-width:380px"><button class="ib" id="lx">✕</button></div>
+<div id="lcats" class="bar" style="margin-top:8px"></div><p class="hint" id="lcount"></p>
+<div id="llist"></div>
+<details class="ldev"><summary>Build the library: add, import, export</summary>
+<div class="bar" style="margin-top:8px"><input class="ib" id="lt" placeholder="Title" style="flex:2;min-width:120px"><input class="ib" id="lc" placeholder="Category" style="flex:1;min-width:100px"><input class="ib" id="lg" placeholder="tags, comma separated" style="flex:2;min-width:120px"></div>
+<div class="bar" style="margin-top:6px"><button class="pri" id="ladd">Add current display as an entry</button><button class="ib" id="lexp">Export my entries (JSON)</button><button class="ib" id="limp">Import JSON…</button><input type="file" id="lfile" accept=".json,application/json" hidden></div>
+<p class="hint">Write the equation in the display (or convert plain text), fill in a title, category and tags, then add it. Entries are stored in this browser; export them as JSON to share or to merge into the built-in list. Entry format: <code>{"title","cat","tags":[…],"p":"plain text"}</code> or <code>{…,"j":[tree]}</code>. If a file named library.json sits next to the page it is loaded automatically.</p></details>
+<div class="bar" style="margin-top:8px;justify-content:flex-end"><button class="pri" id="ldone">Done</button></div></div></div>
 <div class="modal" id="kpe" hidden><div class="box kb"><div class="bar" style="justify-content:space-between"><h2 style="margin:0">Customize keypad</h2><button class="ib" id="kpx">✕</button></div>
 <p class="hint">Click a slot on the left, then click a key in the library on the right to put it there. Use the row buttons to move, extend (up to 6 keys) or delete rows. Changes apply instantly and are saved in this browser.</p>
 <div class="kpbody"><div id="kpl"></div><div id="kpp"></div></div>
@@ -223,8 +248,13 @@ function bbox(n,s){const op=n.op,stk=!!STK[op],isl=op==='lim',gs=isl?s:1.45*s,gw
   return{w,a:Math.max(.72*s,ga-yg,hi?hi.a-hiB:0),d:Math.max(.22*s,gd+yg,loB+lo.d),draw:(x,y)=>glyph(x+(w-gw)/2,y)+(hi?hi.draw(x+(w-hi.w)/2,y+hiB):'')+lo.draw(x+(w-lo.w)/2,y+loB)}}
  const w=gw+Math.max(lo.w,hi?hi.w:0)+.06*s,hiB=hi?yg-ga+hi.a*.85:0,loB=yg+gd-lo.d*.85;
  return{w,a:Math.max(.72*s,ga-yg,hi?hi.a-hiB:0),d:Math.max(.22*s,gd+yg,loB+lo.d),draw:(x,y)=>glyph(x,y)+(hi?hi.draw(x+gw+.1*s,y+hiB):'')+lo.draw(x+gw-.02*s,y+loB)}}
+function fzones(N,D,x,y,w,ax,g,s){const nx=x+(w-N.w)/2,ny=y-ax-g-N.d,dx=x+(w-D.w)/2,dy=y-ax+g+D.a,o=N.draw(nx,ny)+D.draw(dx,dy);
+ if(!EXPORT){const zw=w+.22*s,bar=y-ax;
+  HIT.push({arr:N.arr,x:x,y:ny,A:N.a+.15*s,D:bar-ny,w:zw,xs:N.xs.map(v=>nx+v),d:HD,z:1});
+  HIT.push({arr:D.arr,x:x,y:dy,A:dy-bar,D:D.d+.15*s,w:zw,xs:D.xs.map(v=>dx+v),d:HD,z:1})}
+ return o}
 function fbox(n,s){const t=.92*s,N=row(n.slots[0],t),D=row(n.slots[1],t),ax=.3*s,g=.1*s,w=Math.max(N.w,D.w)+.16*s;
- return{w,a:ax+g+N.d+N.a,d:Math.max(0,D.a+D.d+g-ax),draw:(x,y)=>N.draw(x+(w-N.w)/2,y-ax-g-N.d)+D.draw(x+(w-D.w)/2,y-ax+g+D.a)+`<line x1="${f(x+.04*s)}" x2="${f(x+w-.04*s)}" y1="${f(y-ax)}" y2="${f(y-ax)}" stroke="currentColor" stroke-width="${f(.055*s)}"/>`}}
+ return{w,a:ax+g+N.d+N.a,d:Math.max(0,D.a+D.d+g-ax),draw:(x,y)=>fzones(N,D,x,y,w,ax,g,s)+`<line x1="${f(x+.04*s)}" x2="${f(x+w-.04*s)}" y1="${f(y-ax)}" y2="${f(y-ax)}" stroke="currentColor" stroke-width="${f(.055*s)}"/>`}}
 function rbox(n,s){const B=row(last(n.slots),s),I=n.slots.length>1?row(n.slots[0],.6*s):null;
  const top=-(B.a+.16*s),bot=B.d+.06*s,mid=top+(bot-top)*.55,sx=I?Math.max(0,I.w-.22*s):0,iy=mid-.1*s;
  const w=sx+.5*s+B.w+.12*s,a=Math.max(-top+.06*s,I?I.a-iy:0);
@@ -242,12 +272,12 @@ function place(its,s){let x=0,bIC=0,bA=.72*s,bD=.22*s,lst=null,xs=[],ext=[],pl=[
 function row(arr,s){const pr=match(arr),its=arr.map(n=>box(n,s));
  for(let c=0;c<arr.length;c++){const o=pr[c];if(o!=null&&o<c){const r=place(its,s);let a=.72*s,d=.22*s;for(let k=o+1;k<c;k++){a=Math.max(a,r.ext[k][0]);d=Math.max(d,r.ext[k][1])}
   if(a>.85*s||d>.3*s){its[o]=pbox(0,a,d,s,arr[o].v);its[c]=pbox(1,a,d,s,arr[o].v)}}}
- if(!arr.length){const w=.6*s;return{w,a:.72*s,d:.22*s,draw:(x,y)=>(EXPORT?'':hit(arr,x,y,.72*s,.22*s,w,[x+.3*s])+`<rect x="${f(x+.05*s)}" y="${f(y-.66*s)}" width="${f(.5*s)}" height="${f(.86*s)}" rx="3" fill="none" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="3 3"/>`)+(!EXPORT&&cur.arr===arr?caret(x+.3*s,y,.72*s,.22*s,s):'')}}
+ if(!arr.length){const w=.6*s;return{arr,xs:[.3*s],w,a:.72*s,d:.22*s,draw:(x,y)=>(EXPORT?'':hit(arr,x,y,.72*s,.22*s,w,[x+.3*s])+`<rect x="${f(x+.05*s)}" y="${f(y-.66*s)}" width="${f(.5*s)}" height="${f(.86*s)}" rx="3" fill="none" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="3 3"/>`)+(!EXPORT&&cur.arr===arr?caret(x+.3*s,y,.72*s,.22*s,s):'')}}
  const r=place(its,s);
- return{w:r.w,a:r.A,d:r.D,draw:(x,y)=>(EXPORT?'':hit(arr,x,y,r.A,r.D,r.w,r.xs.map(v=>x+v))+selR(arr,x,y,r))+r.pl.map(p=>p.b.script?p.b.inner.draw(x+p.x,y+p.dy):p.b.draw(x+p.x,y)).join('')+(!EXPORT&&cur.arr===arr?caret(x+r.xs[cur.i],y,r.A,r.D,s):'')}}
+ return{arr,xs:r.xs,w:r.w,a:r.A,d:r.D,draw:(x,y)=>{const pre=EXPORT?'':hit(arr,x,y,r.A,r.D,r.w,r.xs.map(v=>x+v))+selR(arr,x,y,r);HD++;const body=r.pl.map(p=>p.b.script?p.b.inner.draw(x+p.x,y+p.dy):p.b.draw(x+p.x,y)).join('');HD--;return pre+body+(!EXPORT&&cur.arr===arr?caret(x+r.xs[cur.i],y,r.A,r.D,s):'')}}}
 const caret=(x,y,a,d,s)=>`<rect class="caret" x="${f(x-.02*s)}" y="${f(y-a)}" width="${f(.045*s)}" height="${f(a+d)}" fill="#4d8dff"/>`;
-let HIT=[],SEL=null,VW=1,VH=1;
-const hit=(arr,x,y,A,D,w,xs)=>{HIT.push({arr,x,y,A,D,w,xs});return''};
+let HIT=[],SEL=null,VW=1,VH=1,HD=0;
+const hit=(arr,x,y,A,D,w,xs)=>{HIT.push({arr,x,y,A,D,w,xs,d:HD});return''};
 const selR=(arr,x,y,r)=>SEL&&SEL.arr===arr?`<rect x="${f(x+r.xs[SEL.a])}" y="${f(y-r.A)}" width="${f(r.xs[SEL.b]-r.xs[SEL.a])}" height="${f(r.A+r.D)}" fill="#4d8dff" fill-opacity=".35"/>`:'';
 /* ---------- rendering ---------- */
 let TC=false;const colorVal=()=>TC?'#000000':'#ffffff';
@@ -261,7 +291,7 @@ function ensureCaret(){const d=$('#disp'),sv=$('#svg'),off=document.body.classLi
  if(sw>dw){if(cr.left<dr.left+mx)dx=cr.left-(dr.left+mx);else if(cr.right>dr.right-mx)dx=cr.right-(dr.right-mx)}
  if(sh>dh){if(cr.top<dr.top+my)dy=cr.top-(dr.top+my);else if(cr.bottom>dr.bottom-my)dy=cr.bottom-(dr.bottom-my)}
  if(dx||dy){PX=Math.min(0,Math.max(Math.min(0,dw-sw),PX-dx/k));PY=Math.min(0,Math.max(Math.min(0,dh-sh),PY-dy/k));sv.style.transform='translate('+PX+'px,'+PY+'px)'}}
-function render(){EXPORT=false;HIT=[];SEL=selRange();const r=row(root,SZ),pd=22,W=r.w+2*pd,H=r.a+r.d+2*pd,sv=$('#svg');VW=W;VH=H;
+function render(){EXPORT=false;HIT=[];HD=0;SEL=selRange();const r=row(root,SZ),pd=22,W=r.w+2*pd,H=r.a+r.d+2*pd,sv=$('#svg');VW=W;VH=H;
  sv.setAttribute('viewBox',`0 0 ${f(W)} ${f(H)}`);let kk=1;if(document.body.classList.contains('dfs')){const dd=$('#disp');kk=Math.min(4,Math.max(.2,Math.min(dd.clientWidth*.92/W,dd.clientHeight*.86/H)))}sv.setAttribute('width',f(W*kk));sv.setAttribute('height',f(H*kk));
  sv.setAttribute('font-family',FF);sv.style.color=colorVal();sv.style.fill='currentColor';sv.innerHTML=r.draw(pd,pd+r.a);ensureCaret();
  $('#disp').classList.toggle('light',colorVal()==='#000000');$('.dw').classList.toggle('light',colorVal()==='#000000');
@@ -349,7 +379,7 @@ function buildList(){const l=$('#list'),q=($('#kq').value||'').trim().toLowerCas
 window.addEventListener('keydown',e=>{
  if(capId){e.preventDefault();if(['Shift','Control','Alt','Meta','CapsLock'].includes(e.key))return;
   let prev=null;for(const k in B)if(B[k]===e.key&&k!==capId){prev=k;B[k]=''}B[capId]=e.key;if(prev)toast('Moved from “'+(NM[prev]||byId[prev].label)+'”');capId=null;saveB();buildList();buildPad();return}
- if(!$('#modal').hidden||!$('#manual').hidden||!$('#kpe').hidden)return;
+ if(!$('#modal').hidden||!$('#manual').hidden||!$('#kpe').hidden||!$('#libm').hidden)return;
  if(e.key==='Escape'&&document.body.classList.contains('dfs')){e.preventDefault();dfs(false);return}
  if(['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)&&e.target.id!=='tex')return;
  if(e.ctrlKey||e.metaKey){const k=e.key.toLowerCase();if(k==='z'){e.preventDefault();run(e.shiftKey?'redo':'undo')}else if(k==='y'){e.preventDefault();run('redo')}else if(k==='a'&&e.target.id!=='tex'){e.preventDefault();anc={arr:root,i:0};cur={arr:root,i:root.length};render()}return}
@@ -363,10 +393,10 @@ $('#reset').onclick=()=>{B=defaults();capId=null;saveB();buildList();buildPad()}
 $('#png').onclick=()=>savePNG(4);$('#png8').onclick=()=>savePNG(8);$('#svgb').onclick=saveSVG;$('#cimg').onclick=copyImg;$('#gen').onclick=copyTex;$('#wrap').onchange=render;
 function tcUpd(){$('#tcb').textContent=TC?'White text':'Black text'}$('#tcb').onclick=()=>{TC=!TC;tcUpd();render()};tcUpd();
 /* ---------- plain text -> equation (rule-based parser, no AI) ---------- */
-const GREEK={pi:['π','\\pi'],theta:['θ','\\theta'],alpha:['α','\\alpha'],beta:['β','\\beta'],gamma:['γ','\\gamma'],delta:['δ','\\delta'],lambda:['λ','\\lambda'],sigma:['σ','\\sigma'],omega:['ω','\\omega'],phi:['φ','\\phi'],epsilon:['ε','\\epsilon']};
+const GREEK={mu:['μ','\\mu'],rho:['ρ','\\rho'],tau:['τ','\\tau'],eta:['η','\\eta'],psi:['ψ','\\psi'],chi:['χ','\\chi'],zeta:['ζ','\\zeta'],kappa:['κ','\\kappa'],pi:['π','\\pi'],theta:['θ','\\theta'],alpha:['α','\\alpha'],beta:['β','\\beta'],gamma:['γ','\\gamma'],delta:['δ','\\delta'],lambda:['λ','\\lambda'],sigma:['σ','\\sigma'],omega:['ω','\\omega'],phi:['φ','\\phi'],epsilon:['ε','\\epsilon']};
 const FUN={};['sin','cos','tan','sec','csc','cot','sinh','cosh','tanh','ln','log','exp'].forEach(n=>FUN[n]=[n,'\\'+n]);
 [['arcsin','sin'],['asin','sin'],['arccos','cos'],['acos','cos'],['arctan','tan'],['atan','tan']].forEach(([a,b])=>FUN[a]=[b+'⁻¹','\\'+b+'^{-1}']);
-const NAMES=[...Object.keys(GREEK),...Object.keys(FUN),'sqrt','cbrt','root'].sort((a,b)=>b.length-a.length);
+const NAMES=[...Object.keys(GREEK),...Object.keys(FUN),'sqrt','cbrt','root','int','iint','iiint','oint','sum','prod','lim','infty','infinity','inf'].sort((a,b)=>b.length-a.length);
 const NORM={'−':'-','–':'-','×':'*','·':'*','⋅':'*','÷':'/','[':'(',']':')','{':'(','}':')','≤':'<=','≥':'>=','≠':'!=','√':'√','∛':'∛'},SUPS='⁰¹²³⁴⁵⁶⁷⁸⁹';
 function lexT(src){const T=[];let i=0;
  while(i<src.length){const c=src[i];
@@ -376,22 +406,30 @@ function lexT(src){const T=[];let i=0;
   if(SUPS.includes(c)||c==='⁻'||c==='ⁿ'){let d='',neg=false;if(c==='ⁿ'){T.push({k:'o',v:'^'},{k:'v',v:'n'});i++;continue}
    if(c==='⁻'){neg=true;i++}while(i<src.length&&SUPS.includes(src[i]))d+=SUPS.indexOf(src[i++]);T.push({k:'o',v:'^'});if(neg)T.push({k:'o',v:'-'});if(d)T.push({k:'n',v:d});continue}
   const two=src.substr(i,2);
-  if(['<=','>=','!=','**','+-'].includes(two)){T.push({k:'o',v:two==='**'?'^':two==='+-'?'±':two});i+=2;continue}
+  if(['<=','>=','!=','**','+-','->'].includes(two)){T.push({k:'o',v:two==='**'?'^':two==='+-'?'±':two==='->'?'→':two});i+=2;continue}
   T.push({k:'o',v:NORM[c]||c});i++}
  return T}
-function parseText(src,smart){const T=lexT(src);let p=0;
+function parseText(src,smart){const T=lexT(src);let p=0,intOpen=0;
  const nx=()=>T[p++],isO=v=>p<T.length&&T[p].k==='o'&&T[p].v===v,ch=(v,l)=>({t:'c',v,l:l??v});
- const RELS={'=':['='],'<':['<'],'>':['>'],'<=':['≤','\\leq'],'>=':['≥','\\geq'],'!=':['≠','\\neq'],',':[',']};
+ const RELS={'→':['→','\\to'],'=':['='],'<':['<'],'>':['>'],'<=':['≤','\\leq'],'>=':['≥','\\geq'],'!=':['≠','\\neq'],',':[',']};
  const isGroup=a=>a.length>2&&a[0].v==='('&&last(a).v===')'&&match(a)[0]===a.length-1;
  const strip=a=>isGroup(a)?a.slice(1,-1):a;
  const hasAdd=a=>a.slice(1,-1).some(n=>n.t==='c'&&'+−±'.includes(n.v)&&n.v.length===1);
  const digits=v=>[...v].map(d=>ch(d));
- const tc=t=>t.k==='o'?(t.v==='*'?ch('×','\\times'):t.v==='%'?ch('%','\\%'):t.v==='±'?ch('±','\\pm'):ch(t.v)):ch(t.v);
+ const tc=t=>t.k==='o'?(t.v==='*'?ch('×','\\times'):t.v==='→'?ch('→','\\to'):t.v==='%'?ch('%','\\%'):t.v==='±'?ch('±','\\pm'):ch(t.v)):ch(t.v);
  const starts=first=>{const t=T[p];if(!t)return false;if(t.k==='v'||t.k==='w')return true;if(t.k==='n')return first||(p>0&&T[p-1].k==='w');return t.k==='o'&&['(','√','∛'].includes(t.v)};
  function sqArg(){if(isO('('))return strip(atom());return starts(true)?atom():[]}
+ const BIGW={int:1,iint:1,iiint:1,oint:1,sum:1,prod:1,lim:1};
+ function bigword(n){const INT={int:['∫','\\int'],iint:['∬','\\iint'],iiint:['∭','\\iiint'],oint:['∮','\\oint']}[n];let lo=null,hi=null;
+  for(let k=0;k<2;k++){if(isO('_')&&!lo){p++;lo=expAtom()}else if(isO('^')&&!hi){p++;hi=expAtom()}else break}
+  if(INT)intOpen++;
+  if(INT&&(n!=='int'||(!lo&&!hi)))return[ch(INT[0],INT[1])];
+  if(n==='lim'){const b=mk('b',[lo||[]]);b.op='lim';b.l='\\lim';return[b]}
+  const b=mk('b',[lo||[],hi||[]]);b.op=n==='sum'?'∑':n==='prod'?'∏':'∫';b.l=n==='sum'?'\\sum':n==='prod'?'\\prod':'\\int';return[b]}
+ const isBig=n=>n.t==='b'||(n.t==='c'&&n.v.length===1&&'∫∬∭∮'.includes(n.v));
  function atom(){const t=nx();if(!t)return[];
-  if(t.k==='n')return digits(t.v);if(t.k==='v')return[ch(t.v)];
-  if(t.k==='w'){const n=t.v;if(GREEK[n])return[ch(...GREEK[n])];if(FUN[n])return[ch(...FUN[n])];
+  if(t.k==='n')return digits(t.v);if(t.k==='v'){if(t.v==='d'&&intOpen>0&&p<T.length&&(T[p].k==='v'||T[p].k==='w')){intOpen--;return[{t:'c',v:'d',l:'\\,\\mathrm{d}',up:1}]}return[ch(t.v)]}
+  if(t.k==='w'){const n=t.v;if(GREEK[n])return[ch(...GREEK[n])];if(FUN[n])return[ch(...FUN[n])];if(n==='infty'||n==='infinity'||n==='inf')return[ch('∞','\\infty')];if(BIGW[n])return bigword(n);
    if(n==='sqrt')return[mk('r',[sqArg()])];if(n==='cbrt')return[mk('r',[[ch('3')],sqArg()])];
    if(isO('(')){p++;const idx=expr();if(isO(','))p++;const bd=expr();if(isO(')'))p++;return[mk('r',[idx,bd])]}return[mk('r',[sqArg()])]}
   if(t.k==='o'&&t.v==='√')return[mk('r',[sqArg()])];if(t.k==='o'&&t.v==='∛')return[mk('r',[[ch('3')],sqArg()])];
@@ -402,11 +440,11 @@ function parseText(src,smart){const T=lexT(src);let p=0;
  function pow(){const b=atom();let sub=null,sup=null;
   for(let k=0;k<2;k++){if(isO('^')&&!sup){p++;sup=expAtom()}else if(isO('_')&&!sub){p++;sub=expAtom()}else break}
   if(sub)b.push(mk('u',[sub]));if(sup)b.push(mk('s',[sup]));return b}
- function imp(){let o=starts(true)?pow():[];while(starts(false))o=o.concat(pow());return o}
+ function imp(nb){let o=starts(true)?pow():[];while(starts(false)&&!(nb&&T[p].k==='w'&&BIGW[T[p].v]))o=o.concat(pow());return o}
  function term(){let o=imp();
   while(p<T.length&&(isO('*')||isO('/'))){const op=nx().v;
    if(op==='*'){o.push(ch('×','\\times'));o=o.concat(imp())}
-   else{const num=strip(o),den=(smart&&isGroup(o)&&hasAdd(o)&&!isO('('))?expr():strip(imp());o=[mk('f',[num,den])]}}
+   else{let bi=-1;o.forEach((n,i)=>{if(isBig(n))bi=i});const pre=o.slice(0,bi+1),o2=o.slice(bi+1),num=strip(o2),den=(smart&&isGroup(o2)&&hasAdd(o2)&&!isO('('))?expr():(isO('(')?strip(pow()):strip(imp(true)));o=pre.concat([mk('f',[num,den])]);if(starts(true))o=o.concat(imp())}}
   return o}
  function expr(){let o=[];if(isO('+')||isO('-')||isO('±'))o.push(nx().v==='-'?ch('−','-'):ch(...(T[p-1].v==='±'?['±','\\pm']:['+'])));
   o=o.concat(term());
@@ -435,6 +473,7 @@ const TOUR=[
 {s:['#conv'],open:'gp',fill:FILL,t:'An example is already typed in. Press the <b>→ Equation</b> button to add it to your display (it is added at the caret, nothing is cleared).'},
 {s:['#exp'],t:'<b>Export</b> as PNG, a double-size PNG, SVG, or copy the image to paste into Word or Docs. Backgrounds are transparent.'},
 {s:['#tcb'],t:'Switch the <b>text colour</b> of exported images between white and black.'},
+{s:['#libb'],t:'<b>Formula library</b>: search a starter set of formulas and insert one at the caret. You can build your own entries there too.'},
 {s:['#side'],open:'side',t:'<b>Saved equations</b>: save, load, update or copy the LaTeX of anything you wrote. Stored in this browser.'},
 {s:['#rside'],open:'rside',t:'The <b>LaTeX panel</b> (the LaTeX button under Copy image) shows live LaTeX. Pick plain, $…$ or $$…$$ and copy it.'},
 {s:['label.sw','#kpb','#gear'],t:'Scroll down one step for <b>light/dark</b> mode, <b>Customize keypad</b> (build your own keypad with integrals, Greek letters, braces and more) and <b>Keybinds</b>.'},
@@ -484,19 +523,117 @@ let NARROW=null;
 function setNarrow(n){if(n===NARROW)return;NARROW=n;const lc=$('#lcol'),rc=$('#rcol');if(n){$('#below').prepend(rc);$('#below').prepend(lc)}else{$('.layout').insertBefore(lc,$('.main'));$('.layout').appendChild(rc)}lc.classList.toggle('inb',n);rc.classList.toggle('inb',n)}
 const PADF=16;
 const mqm=matchMedia('(max-width:820px)');
-let MOB=null,MOBINIT=false;const homeY=()=>$('#topbar').offsetHeight;
+let MOB=null,MOBINIT=false,SHV=null,RZT=0;const homeY=()=>$('#topbar').offsetHeight;
 function setMob(m){if(m===MOB)return;MOB=m;const lc=$('#lcol'),rc=$('#rcol');if(m){$('#topbar').append($('#sidebtn'),$('#tcb'),$('#rbtn'))}else{lc.prepend($('#sidebtn'));lc.append($('#tcb'));rc.append($('#rbtn'))}}
-function fit(){const mob=mqm.matches;document.documentElement.classList.toggle('mob',mob);setMob(mob);
+function fit(force){const mob=mqm.matches;document.documentElement.classList.toggle('mob',mob);setMob(mob);
  if(!mob)MOBINIT=false;
- if(mob){setNarrow(true);$('#fit').style.cssText='';$('#screen').style.height='';document.documentElement.classList.remove('free');if(!MOBINIT){MOBINIT=true;requestAnimationFrame(()=>window.scrollTo(0,homeY()))}tPlace();return}
- const sc=$('#screen'),fi=$('#fit'),vw=sc.clientWidth-2*PADF,vh=innerHeight-2*PADF,H0=$('.main').offsetHeight,kh=vh/H0,bs=getComputedStyle(document.body),drawer=parseFloat(bs.paddingLeft)+parseFloat(bs.paddingRight)>0,wide=kh*900<=vw+.5||(drawer&&vw>=700);
- setNarrow(!wide);const W0=wide?900:520,k=wide?Math.min(kh,vw/900):Math.min(kh,vw/520),free=k<kh-1e-6;
- fi.style.width=W0+'px';fi.style.transform='scale('+k+')';fi.style.left=(PADF+Math.max(0,(vw-W0*k)/2))+'px';fi.style.top=PADF+'px';
- sc.style.height=(free?H0*k+2*PADF:innerHeight)+'px';document.documentElement.classList.toggle('free',free);tPlace()}
+ if(mob){setNarrow(true);if(SHV===null||force){SHV=innerHeight;const S=$('#screen').style;S.setProperty('--sh',SHV+'px');S.setProperty('--u',SHV/100+'px');S.setProperty('--dh',Math.max(120,Math.min(270,SHV*.25))+'px')}$('#fit').style.cssText='';$('#screen').style.height='';document.documentElement.classList.remove('free');if(!MOBINIT){MOBINIT=true;requestAnimationFrame(()=>window.scrollTo(0,homeY()))}tPlace();return}
+ const sc=$('#screen'),fi=$('#fit'),full=document.documentElement.clientWidth-2*PADF,freeW=sc.clientWidth-2*PADF,vh=innerHeight-2*PADF,baseH=170+10+LAY.length*52+Math.max(0,LAY.length-1)*6,kh=vh/baseH,wide=kh*900<=Math.min(full,freeW)+.5;
+ setNarrow(!wide);const W0=wide?900:520,k=wide?kh:Math.min(kh,full/520),free=k<kh-1e-6,mh=$('.main').offsetHeight*k;
+ fi.style.width=W0+'px';fi.style.transform='scale('+k+')';fi.style.left=(PADF+Math.max(0,(freeW-W0*k)/2))+'px';fi.style.top=PADF+'px';
+ sc.style.height=(free?mh+2*PADF:Math.max(innerHeight,mh+2*PADF))+'px';document.documentElement.classList.toggle('free',free);tPlace()}
 const ro=new ResizeObserver(()=>requestAnimationFrame(fit));ro.observe($('#screen'));ro.observe($('.main'));
-window.addEventListener('resize',fit);mqm.addEventListener('change',fit);window.addEventListener('load',()=>{if(MOB&&scrollY<2)window.scrollTo(0,homeY())});fit();
+window.addEventListener('resize',()=>{clearTimeout(RZT);RZT=setTimeout(()=>fit(true),(MOB||matchMedia('(pointer:coarse)').matches)?2000:100)});mqm.addEventListener('change',()=>fit(true));window.addEventListener('load',()=>{if(MOB&&scrollY<2)window.scrollTo(0,homeY())});fit();
 $('#mclose').onclick=()=>{$('#manual').hidden=true};$('#mtour').onclick=tStart;
 $('#manual').addEventListener('pointerdown',e=>{if(e.target===e.currentTarget)$('#manual').hidden=true});
+/* ---------- formula library ----------
+   Entry (schema v1):  {id, title, cat, tags:[...], p:"plain text"}   or   {..., j:[serialized tree]}
+   p (string, or array of strings that are converted and joined) goes through the plain-text converter;
+   j is an exact tree (made by "Add current display as an entry") and wins over p.  Reserved: kind:"template".
+   More entries: add rows to LIBC below, import a .json file in the library window, or drop a library.json next to the page. */
+const LIBC=[
+["Quadratic formula","Algebra","quadratic roots polynomial solve parabola","x=(-b±sqrt(b^2-4ac))/2a"],
+["Discriminant","Algebra","quadratic roots","D=b^2-4ac"],
+["Difference of squares","Algebra","factor factorise","a^2-b^2=(a-b)(a+b)"],
+["Square of a sum","Algebra","binomial expand","(a+b)^2=a^2+2ab+b^2"],
+["Square of a difference","Algebra","binomial expand","(a-b)^2=a^2-2ab+b^2"],
+["Cube of a sum","Algebra","binomial expand","(a+b)^3=a^3+3a^2b+3ab^2+b^3"],
+["Sum of cubes","Algebra","factor factorise","a^3+b^3=(a+b)(a^2-ab+b^2)"],
+["Slope of a line","Algebra","gradient coordinate","m=(y_2-y_1)/(x_2-x_1)"],
+["Point-slope form","Algebra","line equation","y-y_1=m(x-x_1)"],
+["Slope-intercept form","Algebra","line equation","y=mx+b"],
+["Distance formula","Algebra","coordinate geometry length","d=sqrt((x_2-x_1)^2+(y_2-y_1)^2)"],
+["Midpoint formula","Algebra","coordinate geometry","M=((x_1+x_2)/2,(y_1+y_2)/2)"],
+["Product rule for exponents","Algebra","indices powers","a^m a^n=a^(m+n)"],
+["Power of a power","Algebra","indices powers","(a^m)^n=a^(mn)"],
+["Logarithm of a product","Algebra","log logarithm","log(ab)=log a+log b"],
+["Change of base","Algebra","log logarithm","log_b(x)=log(x)/log(b)"],
+["Compound interest","Finance","interest growth exponential","A=P(1+r/n)^(nt)"],
+["Pythagorean theorem","Geometry","right triangle hypotenuse","a^2+b^2=c^2"],
+["Area of a circle","Geometry","area radius pi","A=pi r^2"],
+["Circumference of a circle","Geometry","perimeter radius pi","C=2 pi r"],
+["Area of a triangle","Geometry","base height",["A=1/2","b h"]],
+["Area of a trapezoid","Geometry","bases height parallel",["A=1/2","(a+b)h"]],
+["Volume of a sphere","Geometry","radius pi",["V=4/3","pi r^3"]],
+["Surface area of a sphere","Geometry","radius pi","A=4 pi r^2"],
+["Volume of a cylinder","Geometry","radius height pi","V=pi r^2 h"],
+["Volume of a cone","Geometry","radius height pi",["V=1/3","pi r^2 h"]],
+["Law of cosines","Trigonometry","triangle sides angle","c^2=a^2+b^2-2ab cos(C)"],
+["Law of sines","Trigonometry","triangle sides angle","a/sin(A)=b/sin(B)=c/sin(C)"],
+["Pythagorean identity","Trigonometry","identity","sin^2(x)+cos^2(x)=1"],
+["Tangent identity","Trigonometry","identity","tan(x)=sin(x)/cos(x)"],
+["Sine double angle","Trigonometry","identity","sin(2x)=2 sin(x)cos(x)"],
+["Cosine double angle","Trigonometry","identity","cos(2x)=cos^2(x)-sin^2(x)"],
+["Sine addition","Trigonometry","identity sum","sin(a+b)=sin(a)cos(b)+cos(a)sin(b)"],
+["Cosine addition","Trigonometry","identity sum","cos(a+b)=cos(a)cos(b)-sin(a)sin(b)"],
+["Euler's formula","Trigonometry","complex exponential","e^(i theta)=cos(theta)+i sin(theta)"],
+["Derivative definition","Calculus","limit derivative","f'(x)=lim_(h->0)(f(x+h)-f(x))/h"],
+["Limit of sin x over x","Calculus","limit","lim_(x->0)sin(x)/x=1"],
+["Definition of e","Calculus","limit euler","e=lim_(n->inf)(1+1/n)^n"],
+["Power rule","Calculus","derivative","(x^n)'=n x^(n-1)"],
+["Product rule","Calculus","derivative","(f g)'=f' g+f g'"],
+["Chain rule","Calculus","derivative composite","(f(g(x)))'=f'(g(x))g'(x)"],
+["Integral of a power","Calculus","integral antiderivative","int x^n dx=x^(n+1)/(n+1)+C"],
+["Definite integral","Calculus","integral fundamental theorem","int_a^b f(x) dx=F(b)-F(a)"],
+["Integration by parts","Calculus","integral","int u dv=u v-int v du"],
+["Gaussian integral","Calculus","integral gauss","int_(-inf)^inf e^(-x^2) dx=sqrt(pi)"],
+["Sum of the first n integers","Series","sum arithmetic","sum_(i=1)^n i=n(n+1)/2"],
+["Sum of squares","Series","sum","sum_(i=1)^n i^2=n(n+1)(2n+1)/6"],
+["Geometric series","Series","sum geometric","sum_(k=0)^n r^k=(1-r^(n+1))/(1-r)"],
+["Arithmetic series","Series","sum arithmetic",["S_n=n/2","(a_1+a_n)"]],
+["Mean","Statistics","average sum","mu=1/n sum_(i=1)^n x_i"],
+["Standard deviation","Statistics","variance sum","sigma=sqrt(1/n sum_(i=1)^n (x_i-mu)^2)"],
+["Normal distribution","Statistics","probability gaussian bell","f(x)=1/(sigma sqrt(2pi)) e^(-(x-mu)^2/(2sigma^2))"],
+["Z-score","Statistics","standard score","z=(x-mu)/sigma"],
+["Newton's second law","Physics","force mass acceleration","F=ma"],
+["Mass–energy equivalence","Physics","einstein relativity","E=mc^2"],
+["Kinetic energy","Physics","energy motion",["KE=1/2","m v^2"]],
+["Gravitational force","Physics","newton gravity","F=G m_1 m_2/r^2"],
+["Ohm's law","Physics","electricity voltage current resistance","V=IR"],
+["Electric power","Physics","electricity","P=VI"],
+["Displacement, constant acceleration","Physics","kinematics suvat",["s=u t+1/2","a t^2"]],
+["Velocity–displacement relation","Physics","kinematics suvat","v^2=u^2+2as"],
+["Ideal gas law","Chemistry","gas pressure volume temperature","PV=nRT"]];
+let LCAT='All',LIBU=[],LIBX=[];try{LIBU=JSON.parse(localStorage.getItem('eqpad-lib-user')||'[]')}catch(e){}
+const saveLibU=()=>{try{localStorage.setItem('eqpad-lib-user',JSON.stringify(LIBU))}catch(e){}};
+const slug=t=>t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const okEntry=e=>e&&typeof e.title==='string'&&(typeof e.p==='string'||Array.isArray(e.p)||Array.isArray(e.j));
+const libAll=()=>[...LIBC.map(([title,cat,tags,p])=>({id:slug(title),title,cat,tags:tags.split(' '),p})),...LIBX.map(e=>({...e,x:1})),...LIBU.map(e=>({...e,u:1}))];
+const libTree=e=>{try{return e.j?des(e.j):(Array.isArray(e.p)?e.p.flatMap(x=>parseText(x,true)):parseText(e.p||'',true))}catch(err){return[]}};
+const LIBSVG={};
+function libIns(e){const ns=libTree(e);delSel();cur.arr.splice(cur.i,0,...ns);ns.forEach(n=>n.par=cur.arr);cur.i+=ns.length;anc=null;upd();$('#libm').hidden=true;toast('Inserted “'+e.title+'”')}
+function libCopy(e){try{navigator.clipboard.writeText(tex(libTree(e))).then(()=>toast('LaTeX copied'),()=>toast('Copy blocked here'))}catch(x){toast('Copy blocked here')}}
+function libRender(){const q=($('#lq').value||'').toLowerCase().split(/\s+/).filter(Boolean),all=libAll(),cats=['All',...new Set(all.map(e=>e.cat||'Other'))];
+ $('#lcats').innerHTML=cats.map(c=>`<button class="ib chipc${c===LCAT?' on':''}" data-c="${esc(c)}">${esc(c)}</button>`).join('');
+ const sc=e=>{const hay=(e.title+' '+(e.cat||'')+' '+(e.tags||[]).join(' ')+' '+[].concat(e.p||[]).join(' ')).toLowerCase();if(q.some(t=>!hay.includes(t)))return-1;let v=0;const ti=e.title.toLowerCase();q.forEach(t=>{if(ti.startsWith(t))v+=5;else if(ti.includes(t))v+=3;else if((e.tags||[]).some(g=>g.startsWith(t)))v+=2;else v+=1});return v};
+ const rows=all.filter(e=>LCAT==='All'||(e.cat||'Other')===LCAT).map(e=>[sc(e),e]).filter(r=>r[0]>=0).sort((a,b)=>b[0]-a[0]||a[1].title.localeCompare(b[1].title));
+ $('#lcount').textContent=rows.length+' formula'+(rows.length===1?'':'s')+' – click one to insert it at the caret';
+ const L=$('#llist');L.innerHTML='';
+ rows.forEach(([,e])=>{const d=document.createElement('div'),key=e.id+'|'+e.title+(e.j?'j':'p');d.className='li';const svg=LIBSVG[key]||(LIBSVG[key]=thumbArr(libTree(e)));
+  d.innerHTML=`<div class="lt"><b>${esc(e.title)}</b><span class="lc">${esc(e.cat||'')}${e.u?' · mine':''}${e.x?' · imported':''}</span></div><div class="lth">${svg}</div><div class="la"></div>`;
+  const A=d.querySelector('.la'),mk2=(t,c,fn)=>{const b=document.createElement('button');b.className=c;b.textContent=t;b.onclick=fn;A.appendChild(b)};
+  mk2('Insert','pri',()=>libIns(e));mk2('LaTeX','ib',()=>libCopy(e));if(e.u)mk2('✕','ib',()=>{LIBU=LIBU.filter(x=>x.id!==e.id);saveLibU();libRender()});
+  L.appendChild(d)})}
+$('#libb').onclick=()=>{libRender();$('#libm').hidden=false;if(!matchMedia('(pointer:coarse)').matches)setTimeout(()=>$('#lq').focus(),50)};
+const libClose=()=>{$('#libm').hidden=true};$('#lx').onclick=libClose;$('#ldone').onclick=libClose;$('#libm').addEventListener('pointerdown',e=>{if(e.target===e.currentTarget)libClose()});
+$('#lq').oninput=libRender;$('#lcats').onclick=e=>{const b=e.target.closest('button');if(b){LCAT=b.dataset.c;libRender()}};
+$('#ladd').onclick=()=>{if(!root.length)return toast('Write an equation first');const t=$('#lt').value.trim();if(!t)return toast('Give it a title');
+ const e={id:slug(t)+'-'+Date.now().toString(36),title:t,cat:$('#lc').value.trim()||'My formulas',tags:$('#lg').value.split(/[\s,]+/).filter(Boolean),j:ser(root)};LIBU.unshift(e);saveLibU();
+ try{navigator.clipboard.writeText(JSON.stringify(e)).catch(()=>{})}catch(x){}['lt','lc','lg'].forEach(i=>$('#'+i).value='');libRender();toast('Added – its JSON entry was also copied')};
+$('#lexp').onclick=()=>{if(!LIBU.length)return toast('You have no entries of your own yet');saveFile('eqpad-library.json',new Blob([JSON.stringify(LIBU,null,1)],{type:'application/json'}))};
+$('#limp').onclick=()=>$('#lfile').click();
+$('#lfile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const j=JSON.parse(await f.text()),a=Array.isArray(j)?j:(j.entries||[]),good=a.filter(okEntry).map(x=>({id:x.id||slug(x.title)+'-'+Math.random().toString(36).slice(2,6),title:x.title,cat:x.cat||'Imported',tags:x.tags||[],p:x.p,j:x.j}));LIBU=[...good,...LIBU];saveLibU();libRender();toast('Imported '+good.length+' entries')}catch(err){toast('That file is not a valid library JSON')}e.target.value=''};
+try{fetch('library.json',{cache:'no-cache'}).then(r=>r.ok?r.json():null).then(j=>{if(j)LIBX=(Array.isArray(j)?j:(j.entries||[])).filter(okEntry)}).catch(()=>{})}catch(e){}
 /* ---------- keypad editor ---------- */
 let SELR=0,SELC=0;const kpe=$('#kpe');
 function kpSave(){saveLay();kpRender();buildPad()}
@@ -514,8 +651,8 @@ const kpClose=()=>{kpe.hidden=true};
 $('#kpb').onclick=()=>{kpRender();kpPalette();kpe.hidden=false};$('#kpx').onclick=kpClose;$('#kpdone').onclick=kpClose;kpe.addEventListener('pointerdown',e=>{if(e.target===kpe)kpClose()});
 $('#kpreset').onclick=()=>{LAY=DEFLAY.map(r=>r.slice());SELR=0;SELC=0;kpSave()};
 /* mouse / touch caret + selection */
-function pick(e){const b=$('#svg').getBoundingClientRect(),px=(e.clientX-b.left)*VW/b.width,py=(e.clientY-b.top)*VH/b.height;let best=null,bd=1e9;
- HIT.forEach(h=>{const dx=Math.max(h.x-px,0,px-h.x-h.w),dy=Math.max(h.y-h.A-py,0,py-h.y-h.D),d=dx*dx+dy*dy;if(d<=bd){bd=d;best=h}});
+function pick(e){const b=$('#svg').getBoundingClientRect(),px=(e.clientX-b.left)*VW/b.width,py=(e.clientY-b.top)*VH/b.height;let best=null,bd=1e9,bdep=-1;
+ HIT.forEach(h=>{const dx=Math.max(h.x-px,0,px-h.x-h.w),dy=Math.max(h.y-h.A-py,0,py-h.y-h.D),d=dx*dx+dy*dy;if(h.z&&d>0)return;if(d<bd||(d===bd&&(h.d||0)>=bdep)){bd=d;bdep=h.d||0;best=h}});
  if(!best)return null;let i=0,m=1e9;best.xs.forEach((xx,k)=>{if(Math.abs(xx-px)<m){m=Math.abs(xx-px);i=k}});return{arr:best.arr,i}}
 let drag=null;
 $('#disp').addEventListener('pointerdown',e=>{const p=pick(e);if(!p)return;e.preventDefault();if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();cur=p;anc=null;drag=p;$('#menu').hidden=true;render()});
@@ -525,6 +662,7 @@ window.addEventListener('pointerup',()=>{drag=null});
 let notes=[];try{notes=JSON.parse(localStorage.getItem('eqpad-notes')||'[]')}catch(e){}
 const saveN=()=>{try{localStorage.setItem('eqpad-notes',JSON.stringify(notes))}catch(e){}};
 function thumb(j){EXPORT=true;const r=row(des(j),24),pd=6,W=r.w+2*pd,H=r.a+r.d+2*pd;const t=`<svg xmlns="http://www.w3.org/2000/svg" width="${f(W)}" height="${f(H)}" viewBox="0 0 ${f(W)} ${f(H)}" font-family="${FF}" style="fill:currentColor">${r.draw(pd,pd+r.a)}</svg>`;EXPORT=false;return t}
+function thumbArr(a){EXPORT=true;const r=row(a,22),pd=6,W=r.w+2*pd,H=r.a+r.d+2*pd;const t=`<svg xmlns="http://www.w3.org/2000/svg" width="${f(W)}" height="${f(H)}" viewBox="0 0 ${f(W)} ${f(H)}" font-family="${FF}" style="fill:currentColor">${r.draw(pd,pd+r.a)}</svg>`;EXPORT=false;return t}
 function drawNotes(){const l=$('#notes');l.innerHTML=notes.length?'':'<p style="color:var(--mut);margin:6px 0 0">No saved equations yet.</p>';
  notes.forEach(n=>{const d=document.createElement('div');d.className='nt';d.innerHTML=`<div class="th"><b>${esc(n.name||'Untitled')}</b><br>${thumb(n.j)}</div><div class="ac">`+[['load','Load'],['upd','Update'],['tex','TeX'],['del','✕']].map(([a,t])=>`<button class="ib" data-a="${a}" data-id="${n.id}">${t}</button>`).join('')+'</div>';l.appendChild(d)})}
 $('#notes').onclick=e=>{const b=e.target.closest('button');if(!b)return;const n=notes.find(x=>x.id===b.dataset.id);if(!n)return;const a=b.dataset.a;
@@ -536,4 +674,17 @@ $('#save').onclick=()=>{if(!root.length)return toast('Write something first');no
 loadB();buildPad();render();drawNotes();
 let seenTour=false;try{seenTour=!!localStorage.getItem('eqpad-tour')}catch(e){}
 if(!seenTour)setTimeout(tStart,500);
-</script></body></html>
+</script><script>
+/* PWA: offline cache + install button */
+(function(){
+ if('serviceWorker' in navigator)addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
+ var b=document.getElementById('instb'),dp=null,ios=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1),
+     sa=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+ if(sa)return;
+ addEventListener('beforeinstallprompt',function(e){e.preventDefault();dp=e;b.hidden=false});
+ addEventListener('appinstalled',function(){b.hidden=true;dp=null});
+ if(ios)b.hidden=false;
+ b.onclick=async function(){if(dp){dp.prompt();try{await dp.userChoice}catch(e){}dp=null;b.hidden=true}else toast('On iPhone / iPad: tap Share, then “Add to Home Screen”.')};
+})();
+</script>
+</body></html>
